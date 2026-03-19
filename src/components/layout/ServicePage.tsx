@@ -225,7 +225,7 @@ export function ServicePage({ path, copy }: ServicePageProps) {
 
   return (
     <main className="bg-[#F5F4F2] text-[#152A42]">
-      <section className="relative overflow-hidden border-b border-[#152A42]/10 bg-[#152A42] text-[#F5F4F2]">
+      <section className="relative -mt-20 overflow-hidden border-b border-[#152A42]/10 bg-[#152A42] pt-32 text-[#F5F4F2] md:pt-36">
         <div className="absolute inset-0">
           <div
             className="flex h-full w-full transition-transform duration-700 ease-out"
@@ -250,7 +250,7 @@ export function ServicePage({ path, copy }: ServicePageProps) {
           </div>
         </div>
 
-        <Container className="relative z-10 py-14 md:py-16">
+        <Container className="relative z-10 pb-14 md:pb-16">
           <div className="max-w-3xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#A1805E]">
               Barrios Valencia Abogados
@@ -269,27 +269,18 @@ export function ServicePage({ path, copy }: ServicePageProps) {
             )}
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <Button
-                asChild
-                className="rounded-none bg-[#A1805E] px-8 py-3 text-[#152A42] hover:bg-[#8e6f50]"
-              >
+              <Button asChild>
                 <Link href={ctaHref}>{ctaLabel}</Link>
               </Button>
 
-              <Button
-                asChild
-                className="rounded-none border border-[#F5F4F2]/30 bg-transparent px-8 py-3 text-[#F5F4F2] hover:bg-[#F5F4F2]/8"
-              >
+              <Button asChild>
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                   Escribir por WhatsApp
                 </a>
               </Button>
 
               {secondaryCtaLabel && secondaryCtaHref && (
-                <Button
-                  asChild
-                  className="rounded-none border border-[#F5F4F2]/30 bg-transparent px-8 py-3 text-[#F5F4F2] hover:bg-[#F5F4F2]/8"
-                >
+                <Button asChild>
                   <Link href={secondaryCtaHref}>{secondaryCtaLabel}</Link>
                 </Button>
               )}
@@ -359,17 +350,11 @@ export function ServicePage({ path, copy }: ServicePageProps) {
             </p>
 
             <div className="mt-8 space-y-3">
-              <Button
-                asChild
-                className="w-full rounded-none bg-[#152A42] text-white hover:bg-[#0f2236]"
-              >
+              <Button asChild className="w-full">
                 <Link href={ctaHref}>{ctaLabel}</Link>
               </Button>
 
-              <Button
-                asChild
-                className="w-full rounded-none border border-[#152A42] bg-transparent text-[#152A42] hover:bg-[#152A42] hover:text-white"
-              >
+              <Button asChild className="w-full">
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                   Escribir por WhatsApp
                 </a>
@@ -497,17 +482,11 @@ export function ServicePage({ path, copy }: ServicePageProps) {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <Button
-                asChild
-                className="rounded-none bg-[#A1805E] px-8 py-3 text-[#152A42] hover:bg-[#8e6f50]"
-              >
+              <Button asChild>
                 <Link href={ctaHref}>{ctaLabel}</Link>
               </Button>
 
-              <Button
-                asChild
-                className="rounded-none border border-[#F5F4F2]/30 bg-transparent px-8 py-3 text-[#F5F4F2] hover:bg-[#F5F4F2]/8"
-              >
+              <Button asChild>
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                   Escribir por WhatsApp
                 </a>

@@ -110,16 +110,10 @@ export default function ContactoPage() {
               </div>
 
               <div className="flex flex-wrap gap-4">
-                <Button
-                  asChild
-                  className="rounded-none bg-[#F5F4F2] px-8 py-3 text-[#152A42] hover:bg-[#E3E1DC]"
-                >
+                <Button asChild>
                   <Link href="#agendar">Ver disponibilidad</Link>
                 </Button>
-                <Button
-                  asChild
-                  className="rounded-none border border-white/40 bg-transparent px-8 py-3 text-white hover:bg-white/10"
-                >
+                <Button asChild>
                   <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                     Contactar por WhatsApp
                   </a>
@@ -195,10 +189,7 @@ export default function ContactoPage() {
                   {channel.helper}
                 </p>
 
-                <Button
-                  asChild
-                  className="mt-6 w-full rounded-none border border-[#152A42]/20 bg-transparent text-[#152A42] hover:bg-[#152A42] hover:text-white"
-                >
+                <Button asChild className="mt-6 w-full">
                   <a
                     href={channel.href}
                     target={channel.href.startsWith("http") ? "_blank" : undefined}
@@ -250,17 +241,11 @@ export default function ContactoPage() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <Button
-                asChild
-                className="rounded-none bg-[#152A42] px-8 py-3 text-white hover:bg-[#0F2236]"
-              >
+              <Button asChild>
                 <Link href="/servicios">Ver servicios</Link>
               </Button>
 
-              <Button
-                asChild
-                className="rounded-none border border-[#152A42]/30 bg-transparent px-8 py-3 text-[#152A42] hover:bg-[#152A42] hover:text-white"
-              >
+              <Button asChild>
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                   Atender por WhatsApp
                 </a>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { primaryNavLinks, serviceSections } from "@/data/nav";
+import { ctaLink, primaryNavLinks, serviceSections } from "@/data/nav";
 import { Container } from "@/components/ui/Container";
 import { Navbar } from "./Navbar";
 import { MobileMenu } from "./MobileMenu";
@@ -47,6 +47,7 @@ export function Header() {
             <Navbar
               serviceSections={serviceSections}
               primaryLinks={primaryNavLinks}
+              cta={ctaLink}
               tone={isScrolled ? "dark" : "light"}
               onOpenMobile={() => setMobileOpen(true)}
             />
@@ -58,6 +59,7 @@ export function Header() {
         onClose={() => setMobileOpen(false)}
         serviceSections={serviceSections}
         primaryLinks={primaryNavLinks}
+        cta={ctaLink}
       />
     </>
   );

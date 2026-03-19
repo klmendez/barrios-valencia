@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
 import { primaryNavLinks, ctaLink } from "@/data/nav";
 
 export function Footer() {
@@ -20,9 +21,12 @@ export function Footer() {
               {link.label}
             </Link>
           ))}
-          <Link href={ctaLink.href} className="rounded-full border border-[#A1805E] px-4 py-2 text-[#A1805E]">
-            {ctaLink.label}
-          </Link>
+          <Button
+            asChild
+            className="min-w-[170px] [--btn-bg:transparent] [--btn-fg:#A1805E] [--btn-hover-bg:#A1805E] [--btn-hover-fg:#152A42] [--btn-border:#A1805E] [--btn-radius:999px]"
+          >
+            <Link href={ctaLink.href}>{ctaLink.label}</Link>
+          </Button>
         </nav>
         <p className="text-xs text-[#F5F4F2]/60">© {year} Barrios Valencia Abogados. Todos los derechos reservados.</p>
       </Container>

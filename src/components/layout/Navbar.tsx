@@ -216,11 +216,12 @@ export function Navbar({ serviceSections, primaryLinks, cta, onOpenMobile, tone 
         {cta && (
           <Button
             asChild
-            className={
+            className={cn(
+              "min-w-[180px]",
               tone === "light"
-                ? "border border-white/60 bg-transparent text-[#F5F4F2] hover:bg-white/10"
-                : "bg-[#A1805E] text-[#152A42] hover:bg-[#A1805E]/90"
-            }
+                ? "[--btn-bg:transparent] [--btn-fg:#F5F4F2] [--btn-hover-bg:#F5F4F2] [--btn-hover-fg:#152A42] border-white/70 text-[#F5F4F2]"
+                : "[--btn-bg:#152A42] [--btn-fg:#F5F4F2] [--btn-hover-bg:#F5F4F2] [--btn-hover-fg:#152A42] shadow-[0_12px_30px_rgba(21,42,66,0.12)]",
+            )}
           >
             <Link href={cta.href}>{cta.label}</Link>
           </Button>

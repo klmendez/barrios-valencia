@@ -29,14 +29,14 @@ export function CallToActionSection() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button
                   asChild
-                  className="h-12 min-w-[190px] border border-[#F5F4F2] bg-[#F5F4F2] px-6 font-[Montserrat] text-sm font-semibold text-[#152A42] transition hover:bg-transparent hover:text-[#F5F4F2]"
+                  className="h-12 min-w-[190px] [--btn-bg:#F5F4F2] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#F5F4F2] [--btn-radius:999px]"
                 >
                   <Link href="/contacto">Consultar mi caso</Link>
                 </Button>
 
                 <Button
                   asChild
-                  className="h-12 min-w-[190px] border border-[#A1805E] bg-transparent px-6 font-[Montserrat] text-sm font-semibold text-[#F5F4F2] transition hover:bg-[#A1805E] hover:text-[#152A42]"
+                  className="h-12 min-w-[190px] [--btn-bg:transparent] [--btn-fg:#F5F4F2] [--btn-hover-bg:#A1805E] [--btn-hover-fg:#152A42] [--btn-border:#A1805E] [--btn-radius:999px]"
                 >
                   <Link
                     href="https://wa.me/573008000000"
@@ -103,12 +103,9 @@ export function CallToActionSection() {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full rounded-lg bg-[#A1805E] py-3 font-[Montserrat] text-sm font-semibold text-[#152A42] transition hover:bg-[#c9a37d]"
-                >
+                <Button type="submit" className="w-full">
                   Enviar consulta
-                </button>
+                </Button>
               </form>
             </div>
 

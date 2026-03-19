@@ -81,14 +81,11 @@ export function HeroSection() {
           <p className="section-subtitle text-[#F5F4F2]/85">Defensa pensional y laboral con estrategia</p>
 
           <div className="flex flex-wrap justify-end gap-4">
-            <Button asChild className="bg-[#A1805E] text-[#152A42] hover:bg-[#A1805E]/90">
+            <Button asChild>
               <Link href="/consulta-gratuita">Agenda tu consulta gratuita</Link>
             </Button>
 
-            <Button
-              asChild
-              className="bg-transparent text-[#F5F4F2] ring-1 ring-[#F5F4F2]/35 hover:bg-[#F5F4F2]/10"
-            >
+            <Button asChild>
               <Link href="/casos-de-exito">Ver casos de éxito</Link>
             </Button>
           </div>

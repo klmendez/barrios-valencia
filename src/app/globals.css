@@ -26,6 +26,37 @@ a {
   .section-lead {
     @apply text-sm leading-7 md:text-base;
   }
+
+  .button-slide {
+    --btn-bg: #F5F4F2;
+    --btn-fg: #152A42;
+    --btn-hover-bg: #152A42;
+    --btn-hover-fg: #F5F4F2;
+    --btn-border: var(--btn-fg);
+    --btn-radius: 0px;
+    @apply relative inline-flex items-center justify-center border px-4 py-2 text-sm font-display font-semibold uppercase tracking-[0.08em] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#152A42] disabled:cursor-not-allowed disabled:opacity-60;
+    border-radius: var(--btn-radius);
+    border-color: var(--btn-border);
+    color: var(--btn-fg);
+    background-image: linear-gradient(
+      90deg,
+      var(--btn-hover-bg) 0%,
+      var(--btn-hover-bg) 50%,
+      var(--btn-bg) 50%,
+      var(--btn-bg) 100%
+    );
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    background-color: transparent;
+    transition: background-position 320ms ease, color 220ms ease, border-color 220ms ease;
+  }
+
+  .button-slide:hover:not(:disabled),
+  .button-slide:focus-visible {
+    color: var(--btn-hover-fg);
+    background-position: 0 0;
+    border-color: var(--btn-hover-bg);
+  }
 }
 
 .hide-scrollbar {
