@@ -97,6 +97,11 @@ export function AppointmentScheduler({
   const selectedDay = schedulerDays.find((day) => day.id === selectedDayId);
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
   const selectedSlot = selectedDay?.slots.find((slot) => slot.id === selectedSlotId) ?? null;
+  const [clientName, setClientName] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
+  const [clientPhone, setClientPhone] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   const bookingMessage = selectedSlot && selectedDay
     ? `Hola, quiero agendar una cita el ${selectedDay.fullLabel} a las ${selectedSlot.time} (${selectedSlot.channel}).`
@@ -109,6 +114,38 @@ export function AppointmentScheduler({
   const whatsappHref = bookingMessage
     ? `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${encodeURIComponent(bookingMessage)}`
     : undefined;
+
+  const canSendEmail = Boolean(bookingMessage && clientName.trim() && clientEmail.trim());
+
+  const handleSendEmail = async () => {
+    if (!bookingMessage || !canSendEmail) return;
+    setStatus("sending");
+    setStatusMessage(null);
+
+    const formData = new FormData();
+    formData.set("name", clientName.trim());
+    formData.set("email", clientEmail.trim());
+    formData.set("phone", clientPhone.trim());
+    formData.set("topic", "Agendamiento");
+    formData.set("message", bookingMessage);
+
+    try {
+      const response = await fetch("/api/contacto/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.message || "No pudimos enviar la confirmación. Inténtalo de nuevo.");
+      }
+      setStatus("success");
+      setStatusMessage("Recibimos tu solicitud. Te confirmaremos la cita por correo.");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Ocurrió un error inesperado.";
+      setStatus("error");
+      setStatusMessage(message);
+    }
+  };
 
   return (
     <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
@@ -123,7 +160,7 @@ export function AppointmentScheduler({
           Agenda citas presenciales en Popayán, videollamadas o llamadas telefónicas. Selecciona un día disponible y luego
           el horario que prefieras.
         </p>
-        <p className="mt-2 text-xs uppercase tracking-[0.2em] text-[#A1805E]">
+        <p className="mt-2 text-xs uppercase tracking-[0.1em] text-[#A1805E]">
           Atendemos de lunes a viernes. Sábados y domingos no se programan citas.
         </p>
 
@@ -137,7 +174,7 @@ export function AppointmentScheduler({
                 setSelectedSlotId(null);
               }}
               className={cn(
-                "min-w-[130px] rounded-xl border px-4 py-3 text-left transition",
+                "min-w-[130px] border px-4 py-3 text-left transition",
                 selectedDayId === day.id
                   ? "border-[#A1805E] bg-[#FFF8F3] text-[#152A42]"
                   : "border-[#152A42]/15 bg-white text-[#152A42]/70 hover:border-[#A1805E]/50",
@@ -158,7 +195,7 @@ export function AppointmentScheduler({
               type="button"
               onClick={() => setSelectedSlotId(slot.id)}
               className={cn(
-                "rounded-xl border px-4 py-4 text-left text-sm transition",
+                "border px-4 py-4 text-left text-sm transition",
                 selectedSlotId === slot.id
                   ? "border-[#A1805E] bg-[#FFF8F3] text-[#152A42]"
                   : "border-[#152A42]/15 bg-white text-[#152A42]/70 hover:border-[#A1805E]/40",
@@ -181,30 +218,81 @@ export function AppointmentScheduler({
           )}
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-4">
-          {mailtoHref ? (
-            <Button asChild className="rounded-none bg-[#152A42] px-6 py-3 text-white hover:bg-[#0F2236]">
-              <a href={mailtoHref}>Confirmar por correo</a>
-            </Button>
-          ) : (
-            <Button disabled className="rounded-none bg-[#152A42]/30 px-6 py-3 text-white">
-              Selecciona un horario
-            </Button>
-          )}
+        <div className="mt-6 grid gap-4 border border-[#152A42]/10 bg-white p-5 text-sm text-[#152A42]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#A1805E]">
+            Cuéntanos con quién podemos confirmar
+          </p>
+          <div className="grid gap-3 md:grid-cols-2">
+            <label className="flex flex-col gap-1 text-xs font-semibold">
+              Nombre
+              <input
+                type="text"
+                value={clientName}
+                onChange={(event) => setClientName(event.target.value)}
+                className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none"
+              />
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-semibold">
+              Correo electrónico
+              <input
+                type="email"
+                value={clientEmail}
+                onChange={(event) => setClientEmail(event.target.value)}
+                className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none"
+              />
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-semibold md:col-span-2">
+              Teléfono o WhatsApp (opcional)
+              <input
+                type="tel"
+                value={clientPhone}
+                onChange={(event) => setClientPhone(event.target.value)}
+                className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none"
+              />
+            </label>
+          </div>
 
-          {whatsappHref ? (
+          <div className="flex flex-wrap gap-3">
             <Button
-              asChild
-              className="rounded-none border border-[#152A42] bg-transparent px-6 py-3 text-[#152A42] hover:bg-[#152A42] hover:text-white"
+              type="button"
+              onClick={handleSendEmail}
+              disabled={!canSendEmail || status === "sending"}
+              className="min-w-[200px] [--btn-bg:#152A42] [--btn-fg:#F5F4F2] [--btn-hover-bg:#0F2236] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:opacity-50"
             >
-              <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                Confirmar por WhatsApp
-              </a>
+              {status === "sending" ? "Enviando..." : "Enviar confirmación"}
             </Button>
+
+            {whatsappHref ? (
+              <Button
+                asChild
+                className="[--btn-bg:transparent] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42]"
+              >
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                  Confirmar por WhatsApp
+                </a>
+              </Button>
+            ) : (
+              <Button
+                disabled
+                className="[--btn-bg:transparent] [--btn-fg:#152A42]/60 [--btn-hover-bg:transparent] [--btn-hover-fg:#152A42]/60 [--btn-border:#152A42]/40 disabled:opacity-100"
+              >
+                WhatsApp
+              </Button>
+            )}
+          </div>
+
+          {statusMessage ? (
+            <p
+              className={`text-xs ${status === "error" ? "text-red-600" : "text-emerald-700"}`}
+              aria-live="polite"
+              role="status"
+            >
+              {statusMessage}
+            </p>
           ) : (
-            <Button disabled className="rounded-none border border-[#152A42]/40 bg-transparent px-6 py-3 text-[#152A42]/60">
-              WhatsApp
-            </Button>
+            <p className="text-xs text-[#152A42]/70">
+              Recibirás una copia en tu correo y nuestro equipo te confirmará la cita.
+            </p>
           )}
         </div>
       </div>

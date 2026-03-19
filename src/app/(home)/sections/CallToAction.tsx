@@ -29,14 +29,14 @@ export function CallToActionSection() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button
                   asChild
-                  className="h-12 min-w-[190px] [--btn-bg:#F5F4F2] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#F5F4F2] [--btn-radius:999px]"
+                  className="h-12 min-w-[190px] [--btn-bg:#F5F4F2] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#F5F4F2] [--btn-radius:0px]"
                 >
                   <Link href="/contacto">Consultar mi caso</Link>
                 </Button>
 
                 <Button
                   asChild
-                  className="h-12 min-w-[190px] [--btn-bg:transparent] [--btn-fg:#F5F4F2] [--btn-hover-bg:#A1805E] [--btn-hover-fg:#152A42] [--btn-border:#A1805E] [--btn-radius:999px]"
+                  className="h-12 min-w-[190px] [--btn-bg:transparent] [--btn-fg:#F5F4F2] [--btn-hover-bg:#A1805E] [--btn-hover-fg:#152A42] [--btn-border:#A1805E] [--btn-radius:0px]"
                 >
                   <Link
                     href="https://wa.me/573008000000"
@@ -49,65 +49,7 @@ export function CallToActionSection() {
               </div>
             </div>
 
-            {/* FORMULARIO */}
-            <div className="rounded-2xl border border-[#A1805E]/30 bg-[#1B3554] p-8 shadow-xl">
-              <form
-                action="https://formsubmit.co/abpsegurosltda@gmail.com"
-                method="POST"
-                className="space-y-4"
-              >
-                {/* Opciones de FormSubmit */}
-                <input type="hidden" name="_captcha" value="false" />
-                <input
-                  type="hidden"
-                  name="_subject"
-                  value="Nuevo contacto desde la página web"
-                />
-
-                <div>
-                  <input
-                    type="text"
-                    name="nombre"
-                    placeholder="Nombre completo"
-                    required
-                    className="w-full rounded-lg border border-white/20 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/60 focus:border-[#A1805E] focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Correo electrónico"
-                    required
-                    className="w-full rounded-lg border border-white/20 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/60 focus:border-[#A1805E] focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <input
-                    type="tel"
-                    name="telefono"
-                    placeholder="Teléfono"
-                    className="w-full rounded-lg border border-white/20 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/60 focus:border-[#A1805E] focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <textarea
-                    name="mensaje"
-                    placeholder="Cuéntenos brevemente su caso"
-                    rows={4}
-                    required
-                    className="w-full rounded-lg border border-white/20 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/60 focus:border-[#A1805E] focus:outline-none"
-                  />
-                </div>
-
-                <Button type="submit" className="w-full">
-                  Enviar consulta
-                </Button>
-              </form>
-            </div>
+            
 
           </div>
         </div>

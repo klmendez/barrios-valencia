@@ -12,7 +12,7 @@ const STATS = [
       "Trayectoria en derecho laboral, pensiones y seguridad social.",
   },
   {
-    value: 300,
+    value: 1000,
     suffix: "+",
     title: "casos estudiados",
     description:
@@ -109,27 +109,27 @@ export function WhyChooseUsSection() {
       <Container>
 
         {/* Encabezado horizontal */}
-        <div className="flex flex-col gap-6 border-b border-[#152A42]/15 pb-12 lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex flex-col gap-6 border-b border-[#152A42]/15 pb-10 lg:flex-row lg:items-end lg:justify-between">
 
-          <h2 className="font-[Montserrat] text-5xl font-semibold tracking-[-0.04em] lg:text-6xl">
+          <h2 className="font-[Montserrat] text-4xl font-semibold tracking-[-0.03em] sm:text-[44px] lg:text-5xl">
             ¿Por qué elegirnos?
           </h2>
 
-          <p className="max-w-xl font-[Montserrat] text-sm text-[#152A42]/70 lg:text-base">
-            <span className="block font-semibold uppercase tracking-[0.25em] text-[#A1805E] mb-3">
+          <p className="max-w-xl font-[Montserrat] text-xs leading-6 text-[#152A42]/70 sm:text-sm lg:text-base">
+            <span className="mb-3 block font-semibold uppercase tracking-[0.25em] text-[#A1805E]">
               Defensa jurídica clara y estratégica
             </span>
             Nuestro trabajo combina experiencia, análisis técnico y acompañamiento cercano para asumir cada caso con seriedad, estructura y criterio jurídico.
           </p>
         </div>
 
-        {/* Estadísticas horizontales */}
-        <div className="grid gap-10 pt-14 md:grid-cols-2 lg:grid-cols-4">
+        {/* Estadísticas */}
+        <div className="grid grid-cols-2 gap-6 pt-12 sm:gap-8 lg:grid-cols-4">
 
           {STATS.map((stat, i) => (
             <div key={i} className="space-y-3">
 
-              <div className="font-[Montserrat] text-5xl font-semibold tracking-[-0.05em]">
+              <div className="font-[Montserrat] text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">
                 <CountUp
                   end={stat.value}
                   suffix={stat.suffix}
@@ -137,11 +137,11 @@ export function WhyChooseUsSection() {
                 />
               </div>
 
-              <h3 className="font-[Montserrat] text-lg font-semibold">
+              <h3 className="font-[Montserrat] text-base font-semibold text-[#152A42]/85">
                 {stat.title}
               </h3>
 
-              <p className="font-[Montserrat] text-sm leading-6 text-[#152A42]/70">
+              <p className="font-[Montserrat] text-xs leading-6 text-[#152A42]/65 sm:text-sm">
                 {stat.description}
               </p>
 

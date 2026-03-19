@@ -44,7 +44,7 @@ export function HeroSection() {
           className="absolute inset-0 z-10 bg-gradient-to-br from-[#152A42]/25 via-[#152A42]/65 to-[#0b1726]/60"
           aria-hidden="true"
         />
-        <div className="relative z-20 h-full w-full overflow-hidden" aria-hidden="true">
+        <div className="relative z-20 hidden h-full w-full overflow-hidden sm:block" aria-hidden="true">
           <div
             className="flex h-full w-full transition-transform duration-[900ms] ease-[cubic-bezier(.4,0,.2,1)]"
             style={{ transform: `translateX(-${activeSlide * 100}%)` }}
@@ -93,7 +93,7 @@ export function HeroSection() {
 
         {/* Controles abajo (alineados a la derecha) */}
         {slides.length > 1 && (
-          <div className="mt-10 flex justify-end gap-3">
+          <div className="mt-10 hidden justify-end gap-3 sm:flex">
             <button
               type="button"
               onClick={() => goToSlide(activeSlide - 1)}

@@ -161,7 +161,7 @@ export function ShareCaseForm({ whatsappPhone }: ShareCaseFormProps) {
         <Button
           type="submit"
           disabled={status === "sending"}
-          className="mt-4 rounded-none bg-[#152A42] px-6 py-3 text-white hover:bg-[#0F2236] disabled:opacity-60"
+          className="mt-4 min-w-[220px] [--btn-bg:#152A42] [--btn-fg:#F5F4F2] [--btn-hover-bg:#0F2236] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:opacity-50"
         >
           {status === "sending" ? "Enviando..." : "Enviar documentos"}
         </Button>
@@ -182,7 +182,7 @@ export function ShareCaseForm({ whatsappPhone }: ShareCaseFormProps) {
       </p>
       <Button
         disabled={!whatsappHref}
-        className="mt-3 rounded-none border border-[#152A42] bg-transparent px-6 py-3 text-[#152A42] hover:bg-[#152A42] hover:text-white disabled:border-[#152A42]/30 disabled:text-[#152A42]/40"
+        className="mt-3 [--btn-bg:transparent] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:[--btn-border:#152A42]/30 disabled:[--btn-fg:#152A42]/40 disabled:opacity-100"
         onClick={() => {
           if (!whatsappHref) return;
           window.open(whatsappHref, "_blank", "noopener,noreferrer");

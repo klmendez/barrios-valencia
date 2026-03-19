@@ -43,7 +43,7 @@ export function Header() {
               className="h-14 w-auto object-contain"
             />
           </Link>
-          <div className="flex flex-1 justify-center">
+          <div className="flex flex-1 justify-end lg:justify-center">
             <Navbar
               serviceSections={serviceSections}
               primaryLinks={primaryNavLinks}

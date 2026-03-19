@@ -82,11 +82,11 @@ export function CaseTickerSection() {
   }, [activeIndex]);
 
   return (
-    <section className="bg-[#152A42] py-20 text-[#F5F4F2]">
-      <Container className="grid gap-10 lg:grid-cols-[280px_1fr]">
+    <section className="bg-[#152A42] py-14 text-[#F5F4F2] sm:py-16 lg:py-20">
+      <Container className="grid gap-8 lg:grid-cols-[260px_1fr]">
         <div className="space-y-3">
-          <h2 className="section-title text-[#F5F4F2]">Casos reales</h2>
-          <p className="section-subtitle text-base text-[#A1805E]">
+          <h2 className="section-title text-3xl text-[#F5F4F2] sm:text-4xl">Casos reales</h2>
+          <p className="section-subtitle text-sm text-[#A1805E] sm:text-base">
             Historias que se mueven con evidencia y estrategia
           </p>
           <div className="border border-[#F5F4F2]/20" aria-label="Lista de casos destacados">
@@ -98,12 +98,12 @@ export function CaseTickerSection() {
                   type="button"
                   onClick={() => setActiveIndex(index)}
                   aria-pressed={isActive}
-                  className={`flex w-full items-center justify-between border-b border-[#F5F4F2]/10 px-4 py-3 text-left text-sm uppercase tracking-[0.16em] transition-colors last:border-b-0 ${
+                  className={`flex w-full items-center justify-between border-b border-[#F5F4F2]/10 px-3 py-2 text-left text-[0.68rem] uppercase tracking-[0.14em] transition-colors last:border-b-0 sm:px-4 sm:py-3 sm:text-sm ${
                     isActive ? "bg-[#F5F4F2]/10 text-[#F5F4F2]" : "text-[#F5F4F2]/60 hover:text-[#F5F4F2]"
                   }`}
                 >
                   <span>{item.tag}</span>
-                  <span className="text-[0.6rem] font-semibold tracking-[0.3em] text-[#A1805E]">
+                  <span className="text-[0.55rem] font-semibold tracking-[0.28em] text-[#A1805E] sm:text-[0.6rem]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </button>
@@ -112,27 +112,27 @@ export function CaseTickerSection() {
           </div>
         </div>
 
-        <div className="border border-[#F5F4F2]/15 bg-[#F5F4F2]/5 p-8">
-          <div className="flex flex-col gap-2 text-[0.7rem] uppercase tracking-[0.35em] text-[#F5F4F2]/70">
+        <div className="border border-[#F5F4F2]/15 bg-[#F5F4F2]/5 p-5 sm:p-6 lg:p-8">
+          <div className="flex flex-col gap-1 text-[0.55rem] uppercase tracking-[0.28em] text-[#F5F4F2]/70 sm:text-[0.7rem]">
             <span>{activeCase.location}</span>
             <span>{activeCase.title}</span>
           </div>
 
-          <h3 className="mt-4 font-display text-4xl text-[#F5F4F2]">{activeCase.headline}</h3>
-          <p className="mt-4 text-base leading-relaxed text-[#F5F4F2]/85">{activeCase.description}</p>
+          <h3 className="mt-3 font-display text-3xl text-[#F5F4F2] sm:mt-4 sm:text-4xl">{activeCase.headline}</h3>
+          <p className="mt-3 text-sm leading-relaxed text-[#F5F4F2]/85 sm:mt-4 sm:text-base">{activeCase.description}</p>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          <div className="mt-6 grid gap-3 sm:grid-cols-3 sm:gap-4">
             {activeCase.metrics.map((metric) => (
-              <div key={metric.label} className="border border-[#F5F4F2]/15 p-4 text-left">
-                <p className="text-[0.6rem] uppercase tracking-[0.3em] text-[#F5F4F2]/60">{metric.label}</p>
-                <p className="mt-2 text-2xl font-semibold text-[#F5F4F2]">{metric.value}</p>
+              <div key={metric.label} className="border border-[#F5F4F2]/15 p-3 text-left sm:p-4">
+                <p className="text-[0.55rem] uppercase tracking-[0.26em] text-[#F5F4F2]/60 sm:text-[0.6rem]">{metric.label}</p>
+                <p className="mt-2 text-xl font-semibold text-[#F5F4F2] sm:text-2xl">{metric.value}</p>
               </div>
             ))}
           </div>
 
-          <p className="mt-6 border-l-2 border-[#A1805E] pl-4 text-sm italic text-[#F5F4F2]/85">“{activeCase.quote}”</p>
+          <p className="mt-5 border-l-2 border-[#A1805E] pl-4 text-xs italic text-[#F5F4F2]/85 sm:mt-6 sm:text-sm">“{activeCase.quote}”</p>
 
-          <div className="mt-8 h-[2px] w-full bg-[#F5F4F2]/10">
+          <div className="mt-6 h-[2px] w-full bg-[#F5F4F2]/10 sm:mt-8">
             <div className="h-full bg-[#A1805E] transition-all" style={{ width: `${progress}%` }} />
           </div>
         </div>

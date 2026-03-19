@@ -11,19 +11,6 @@ const whatsappPhone = "573005687950";
 const whatsappUrl =
   `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=Hola%20Barrios%20Valencia%20Abogados,%20necesito%20asesor%C3%ADa.`;
 
-const brandBadges = [
-  {
-    src: "/brand/icono_fondooscuro.PNG",
-    alt: "Logo Barrios Valencia fondo oscuro",
-    caption: "Atención nacional"
-  },
-  {
-    src: "/brand/icono_fondoclaro.PNG",
-    alt: "Logo Barrios Valencia fondo claro",
-    caption: "Casos digitales"
-  },
-];
-
 const contactChannels = [
   {
     label: "Línea directa",
@@ -92,20 +79,19 @@ export default function ContactoPage() {
   return (
     <main className="bg-[#F5F4F2] text-[#152A42]">
       {/* HERO */}
-      <section className="border-b border-[#152A42]/10 bg-gradient-to-br from-[#1F354F] via-[#152A42] to-[#0A1724] text-[#F5F4F2]">
-        <Container className="py-12 md:py-16">
+      <section className="relative -mt-20 border-b border-[#152A42]/10 bg-gradient-to-br from-[#1F354F] via-[#152A42] to-[#0A1724] pt-32 text-[#F5F4F2] md:pt-36">
+        <Container className="py-10 md:py-14">
           <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="space-y-6">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#A6BCD8]">
                   Agenda fácil
                 </p>
-                <h1 className="mt-4 max-w-2xl text-4xl font-semibold leading-tight tracking-[-0.03em] text-white md:text-5xl">
+                <h1 className="mt-3 max-w-2xl text-4xl font-semibold leading-tight tracking-[-0.03em] text-white md:text-5xl">
                   Reserva tu consulta en minutos
                 </h1>
-                <p className="mt-3 max-w-xl text-base leading-7 text-white/80">
-                  Define el canal que prefieras (videollamada, llamada o presencial en Popayán) y comparte documentos clave
-                  para avanzar con claridad.
+                <p className="mt-3 max-w-xl text-sm leading-7 text-white/80 md:text-base">
+                  Agenda videollamadas, llamadas o una visita en Popayán y comparte tus documentos para empezar de inmediato.
                 </p>
               </div>
 
@@ -145,27 +131,6 @@ export default function ContactoPage() {
                 Atención de lunes a viernes. Sábados y domingos no se programan citas.
               </p>
             </aside>
-          </div>
-        </Container>
-      </section>
-
-      {/* LOGOS */}
-      <section className="bg-white py-10">
-        <Container>
-          <div className="rounded-3xl border border-[#152A42]/10 bg-[#F5F4F2] px-6 py-8 shadow-sm">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#A1805E] text-center">
-              Presente en cada modalidad de atención
-            </p>
-            <div className="mt-6 grid gap-6 md:grid-cols-3">
-              {brandBadges.map((badge) => (
-                <div key={badge.caption} className="flex flex-col items-center gap-3 text-center">
-                  <div className="relative h-20 w-32">
-                    <Image src={badge.src} alt={badge.alt} fill className="object-contain" />
-                  </div>
-                  <p className="text-sm font-semibold text-[#152A42]">{badge.caption}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </Container>
       </section>

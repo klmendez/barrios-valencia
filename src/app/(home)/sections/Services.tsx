@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
 import { serviceSections } from "@/data/nav";
 
 const AUTO_ADVANCE_MS = 5000;
@@ -126,60 +127,67 @@ export function ServicesSection() {
               identifiques rápido el camino jurídico más conveniente.
             </p>
 
-            <Link
-              href="/contacto"
-              className="mt-6 inline-flex items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold text-white transition hover:scale-[1.02] hover:opacity-95"
+            <Button
+              asChild
+              className="mt-6 min-w-[200px] [--btn-bg:#A1805E] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#A1805E]"
             >
-              Consulta Gratis
-            </Link>
+              <Link href="/contacto">Consulta Gratis</Link>
+            </Button>
           </div>
 
           <div className="space-y-6">
-            <div className="hidden gap-6 md:grid md:grid-cols-3">
-              {visibleServices.map((service, index) => {
-                const isActive = index === activeIndex;
+            <div className="hidden md:block">
+              <div className="border-t border-border">
+                {visibleServices.map((service, index) => {
+                  const isActive = index === activeIndex;
 
-                return (
-                  <Link
-                    key={`${service.href}-${index}`}
-                    href={service.href}
-                    className={`group flex h-full flex-col rounded-[2rem] border border-border bg-white p-6 shadow-sm transition duration-300 ${
-                      isActive
-                        ? "scale-[1.02] border-gold/30 shadow-lg"
-                        : "opacity-80 hover:opacity-100 hover:shadow-md"
-                    }`}
-                  >
-                    <div className="relative mb-6 h-32 w-32 overflow-hidden rounded-full border-2 border-gold/80 sm:h-36 sm:w-36">
-                      <Image
-                        src={service.image}
-                        alt={service.title}
-                        fill
-                        className="object-cover transition duration-500 group-hover:scale-110"
-                      />
-                    </div>
+                  return (
+                    <Link
+                      key={`${service.href}-${index}`}
+                      href={service.href}
+                      className={`group grid grid-cols-[100px_minmax(0,1fr)] items-center gap-6 border-b border-border py-6 transition duration-300 ${
+                        isActive ? "bg-white/10" : "bg-transparent hover:bg-white/5"
+                      }`}
+                    >
+                      <div className="relative h-24 w-24 overflow-hidden border border-gold/50">
+                        <Image
+                          src={service.image}
+                          alt={service.title}
+                          fill
+                          className="object-cover transition duration-500 group-hover:scale-110"
+                        />
+                      </div>
 
-                    <h3 className="font-display text-2xl text-navy">
-                      {service.title}
-                    </h3>
+                      <div className="space-y-3">
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold font-[Montserrat]">
+                            {service.label}
+                          </p>
+                          <h3 className="text-2xl font-semibold text-navy font-[Montserrat]">
+                            {service.title}
+                          </h3>
+                        </div>
 
-                    <p className="mt-3 text-base leading-7 text-muted">
-                      {service.description}
-                    </p>
+                        <p className="text-base leading-7 text-muted font-[Montserrat]">
+                          {service.description}
+                        </p>
 
-                    <span className="mt-4 inline-flex items-center text-sm font-semibold text-gold underline underline-offset-4">
-                      Ver más
-                    </span>
-                  </Link>
-                );
-              })}
+                        <span className="inline-flex items-center text-sm font-semibold text-gold underline underline-offset-4 font-[Montserrat]">
+                          Ver más →
+                        </span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="md:hidden">
               <Link
                 href={visibleServices[activeIndex]?.href ?? "#"}
-                className="group flex flex-col rounded-[2rem] border border-border bg-white p-6 shadow-sm transition duration-300"
+                className="group grid grid-cols-[90px_minmax(0,1fr)] gap-4 border-t border-b border-border py-6"
               >
-                <div className="relative mb-6 h-32 w-32 overflow-hidden rounded-full border-2 border-gold/80">
+                <div className="relative h-20 w-20 overflow-hidden border border-gold/50">
                   <Image
                     src={visibleServices[activeIndex]?.image ?? "/images/services/default.jpg"}
                     alt={visibleServices[activeIndex]?.title ?? "Servicio"}
@@ -188,17 +196,20 @@ export function ServicesSection() {
                   />
                 </div>
 
-                <h3 className="font-display text-2xl text-navy">
-                  {visibleServices[activeIndex]?.title}
-                </h3>
-
-                <p className="mt-3 text-base leading-7 text-muted">
-                  {visibleServices[activeIndex]?.description}
-                </p>
-
-                <span className="mt-4 inline-flex items-center text-sm font-semibold text-gold underline underline-offset-4">
-                  Ver más
-                </span>
+                <div className="space-y-2">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-gold font-[Montserrat]">
+                    {visibleServices[activeIndex]?.label}
+                  </p>
+                  <h3 className="text-2xl font-semibold text-navy font-[Montserrat]">
+                    {visibleServices[activeIndex]?.title}
+                  </h3>
+                  <p className="text-sm leading-6 text-muted font-[Montserrat]">
+                    {visibleServices[activeIndex]?.description}
+                  </p>
+                  <span className="inline-flex items-center text-sm font-semibold text-gold underline underline-offset-4 font-[Montserrat]">
+                    Ver más →
+                  </span>
+                </div>
               </Link>
             </div>
 
@@ -206,7 +217,7 @@ export function ServicesSection() {
               <button
                 type="button"
                 onClick={handlePrev}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-navy shadow-sm transition hover:border-gold/50 hover:text-gold"
+                className="flex h-11 w-11 items-center justify-center border border-border bg-white text-navy shadow-sm transition hover:border-gold/50 hover:text-gold"
                 aria-label="Anterior"
               >
                 ‹
@@ -230,7 +241,7 @@ export function ServicesSection() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-navy shadow-sm transition hover:border-gold/50 hover:text-gold"
+                className="flex h-11 w-11 items-center justify-center border border-border bg-white text-navy shadow-sm transition hover:border-gold/50 hover:text-gold"
                 aria-label="Siguiente"
               >
                 ›
