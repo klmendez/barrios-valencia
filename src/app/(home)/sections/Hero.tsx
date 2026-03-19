@@ -7,8 +7,8 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 
 const slides = [
-  { src: "/brand/luis1.png", alt: "Juan - marca Barrios Valencia" },
-  {src:"/brand/juan3.png",alt:"Juan-marca Barrios Valencia"},
+  { src: "/brand/luis1.PNG", alt: "Juan - marca Barrios Valencia" },
+  {src:"/brand/juan3.PNG",alt:"Juan-marca Barrios Valencia"},
 ];
 
 export function HeroSection() {
