@@ -3,8 +3,35 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { pageCopy } from "@/data/routes";
+import { cn } from "@/lib/utils";
 
 const copy = pageCopy["/sobre-nosotros"];
+
+const partners = [
+  {
+    name: "Luis Hernando Barrios Hernández",
+    title: "Socio director | Derecho pensional y litigios estratégicos",
+    bio: "Más de 20 años acompañando reclamaciones pensionales complejas, litigios contra fondos públicos y privados y estrategias de reliquidación.",
+    email: "lbarrios@barriosvalencia.com",
+    featured: true,
+  },
+  {
+    name: "Juan Pablo Valencia Giraldo",
+    title: "Socio | Seguridad social, conflictos laborales y asesoría corporativa",
+    bio: "Integra la investigación jurídica con la planeación financiera de cada caso y lidera la comunicación con clientes nacionales e internacionales.",
+    email: "jvalencia@barriosvalencia.com",
+    featured: false,
+  },
+];
+
+const supportTeam = [
+  {
+    name: "Juliana Valencia Giraldo",
+    role: "Asistente jurídica",
+    focus: "Apoya la investigación normativa, prepara borradores y coordina las comunicaciones con entidades administrativas y judiciales.",
+    highlighted: true,
+  },
+];
 
 export default function AboutPage() {
   return (
@@ -37,6 +64,41 @@ export default function AboutPage() {
                 <span className="mt-1 block h-2 w-2 flex-none rounded-full bg-[#A1805E]" />
                 <span>{item}</span>
               </p>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-[#152A42] py-14 text-[#F5F4F2] md:py-16">
+        <Container className="grid gap-6 lg:grid-cols-[220px_1fr] lg:gap-8">
+          <div>
+            <h2 className="text-5xl leading-none text-[#F5F4F2]/95 md:text-6xl lg:sticky lg:top-24">Socios</h2>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {partners.map((partner) => (
+              <article
+                key={partner.email}
+                className={cn(
+                  "flex min-h-[440px] flex-col border border-[#F5F4F2]/8 bg-[#111F33] p-4",
+                  partner.featured && "bg-[#F5F4F2] text-[#152A42]",
+                )}
+              >
+                <div className="mb-4 flex h-32 w-24 items-center justify-center bg-[#F5F4F2]/12 text-2xl font-semibold">
+                  {partner.name
+                    .split(" ")
+                    .filter(Boolean)
+                    .slice(0, 2)
+                    .map((part) => part[0])
+                    .join("")}
+                </div>
+                <p className={cn("text-[42px] leading-[0.92] tracking-[-0.02em]", partner.featured ? "text-[#152A42]" : "text-[#F5F4F2]")}>{partner.name}</p>
+                <p className={cn("mt-3 text-base font-semibold leading-7", partner.featured ? "text-[#152A42]" : "text-[#F5F4F2]")}>{partner.title}</p>
+                <p className={cn("mt-2 text-base leading-7", partner.featured ? "text-[#152A42]/90" : "text-[#F5F4F2]/90")}>{partner.bio}</p>
+                <a href={`mailto:${partner.email}`} className={cn("mt-3 text-base font-semibold", partner.featured ? "text-[#152A42]" : "text-[#F5F4F2]")}>
+                  {partner.email}
+                </a>
+              </article>
             ))}
           </div>
         </Container>
@@ -93,6 +155,38 @@ export default function AboutPage() {
                   Diseñamos procesos que combinan análisis técnico, seguimiento constante y reporting transparente.
                 </p>
               </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-[#152A42] py-14 text-[#F5F4F2] md:py-16">
+        <Container className="grid gap-6 lg:grid-cols-[220px_1fr] lg:gap-8">
+          <div>
+            <h2 className="text-4xl leading-none text-[#F5F4F2]/95 md:text-5xl lg:sticky lg:top-24">Equipo de apoyo</h2>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {supportTeam.map((member) => (
+              <article
+                key={member.name}
+                className={cn(
+                  "flex min-h-[380px] flex-col border border-[#F5F4F2]/8 bg-[#111F33] p-4",
+                  member.highlighted && "bg-[#F5F4F2] text-[#152A42]",
+                )}
+              >
+                <div className="mb-4 flex h-32 w-24 items-center justify-center bg-[#F5F4F2]/12 text-2xl font-semibold">
+                  {member.name
+                    .split(" ")
+                    .filter(Boolean)
+                    .slice(0, 2)
+                    .map((part) => part[0])
+                    .join("")}
+                </div>
+                <p className={cn("text-4xl leading-[0.95] tracking-[-0.02em]", member.highlighted ? "text-[#152A42]" : "text-[#F5F4F2]")}>{member.name}</p>
+                <p className={cn("mt-3 text-base font-semibold", member.highlighted ? "text-[#152A42]" : "text-[#F5F4F2]")}>{member.role}</p>
+                <p className={cn("mt-2 text-base leading-7", member.highlighted ? "text-[#152A42]/90" : "text-[#F5F4F2]/90")}>{member.focus}</p>
+              </article>
             ))}
           </div>
         </Container>
