@@ -34,7 +34,9 @@ a {
     --btn-hover-fg: #F5F4F2;
     --btn-border: var(--btn-fg);
     --btn-radius: 0px;
+
     @apply relative inline-flex items-center justify-center border px-4 py-2 text-sm font-display font-semibold uppercase tracking-[0.08em] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#152A42] disabled:cursor-not-allowed disabled:opacity-60;
+
     border-radius: var(--btn-radius);
     border-color: var(--btn-border);
     color: var(--btn-fg);
@@ -48,7 +50,10 @@ a {
     background-size: 200% 100%;
     background-position: 100% 0;
     background-color: transparent;
-    transition: background-position 320ms ease, color 220ms ease, border-color 220ms ease;
+    transition:
+      background-position 320ms ease,
+      color 220ms ease,
+      border-color 220ms ease;
   }
 
   .button-slide:hover:not(:disabled),
@@ -66,4 +71,22 @@ a {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* 3D utility helpers for team cards */
+.perspective {
+  perspective: 1200px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
 }
