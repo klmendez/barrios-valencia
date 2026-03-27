@@ -23,7 +23,7 @@ export function HeroSection() {
         </div>
         <div className="absolute inset-0 hidden sm:block">
           <Image
-            src="/brand/juanyluis1.PNG"
+            src="/brand/juanyluis1.png"
             alt="Fondo institucional"
             fill
             priority
