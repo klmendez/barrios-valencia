@@ -18,7 +18,8 @@ const partners = [
     name: "Luis Hernando Barrios Hernández",
     title: "Socio director | Derecho pensional y litigios estratégicos",
     bio: "Más de 20 años acompañando reclamaciones pensionales complejas.",
-    email: "lbarrios@barriosvalencia.com",
+    email: "lhbarrios@gmail.com",
+    phone: "300 568 7950",
     image: "/team/luis.jpg",
     highlights: [
       "Magíster en Derecho - Universidad ICESI",
@@ -33,7 +34,8 @@ const partners = [
     name: "Juan Pablo Valencia Giraldo",
     title: "Socio | Seguridad social y asesoría corporativa",
     bio: "Abogado de la Universidad Cooperativa, cursa especialización en Derecho Laboral y Relaciones Industriales en la Universidad Externado de Colombia.",
-    email: "jvalencia@barriosvalencia.com",
+    email: "jp@barriosvalencia.com",
+    phone: "300 739 0004",
     image: "/team/juan1.jpg",
     highlights: [
       "Abogado Universidad Cooperativa de Colombia",
@@ -83,6 +85,7 @@ interface TeamCardProps {
   title: string;
   description: string;
   email: string;
+  phone?: string;
   image: string;
   highlights?: string[];
 }
@@ -92,6 +95,7 @@ function TeamCard({
   title,
   description,
   email,
+  phone,
   image,
   highlights = [],
 }: TeamCardProps) {
@@ -143,6 +147,15 @@ function TeamCard({
                     <span className="inline-block h-2 w-2 bg-current" aria-hidden="true" />
                     {email}
                   </a>
+                  {phone && (
+                    <a
+                      href={`tel:+57${phone.replace(/\s/g, "")}`}
+                      className="mt-1 inline-flex items-center gap-2 text-sm text-current/80"
+                    >
+                      <span className="inline-block h-2 w-2 bg-current/40" aria-hidden="true" />
+                      {phone}
+                    </a>
+                  )}
                 </div>
 
                 {highlights.length > 0 ? (
@@ -202,6 +215,14 @@ function TeamCard({
                 >
                   {email}
                 </a>
+                {phone && (
+                  <a
+                    href={`tel:+57${phone.replace(/\s/g, "")}`}
+                    className="text-sm text-current/75"
+                  >
+                    {phone}
+                  </a>
+                )}
 
                 <button
                   type="button"
@@ -270,6 +291,7 @@ export default function AboutPage() {
                   title={p.title}
                   description={p.bio}
                   email={p.email}
+                  phone={p.phone}
                   image={p.image}
                   highlights={p.highlights}
                 />

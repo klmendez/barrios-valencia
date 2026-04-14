@@ -100,6 +100,9 @@ export function AppointmentScheduler({
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [clientPhone, setClientPhone] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState("Derecho pensional");
+  const [caseMessage, setCaseMessage] = useState("");
+  const [attachedFiles, setAttachedFiles] = useState<FileList | null>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
@@ -108,7 +111,7 @@ export function AppointmentScheduler({
     : null;
 
   const mailtoHref = bookingMessage
-    ? `mailto:contacto@barriosvalencia.com?subject=${encodeURIComponent("Solicitud de cita")}&body=${encodeURIComponent(bookingMessage)}`
+    ? `mailto:jp@barriosvalencia.com?subject=${encodeURIComponent("Solicitud de cita")}&body=${encodeURIComponent(bookingMessage)}`
     : undefined;
 
   const whatsappHref = bookingMessage
@@ -126,8 +129,11 @@ export function AppointmentScheduler({
     formData.set("name", clientName.trim());
     formData.set("email", clientEmail.trim());
     formData.set("phone", clientPhone.trim());
-    formData.set("topic", "Agendamiento");
-    formData.set("message", bookingMessage);
+    formData.set("topic", selectedTopic || "Agendamiento");
+    formData.set("message", `${bookingMessage}${caseMessage.trim() ? `\n\nSituación:\n${caseMessage.trim()}` : ""}`);
+    if (attachedFiles) {
+      Array.from(attachedFiles).forEach((file) => formData.append("attachments", file));
+    }
 
     try {
       const response = await fetch("/api/contacto/upload", {
@@ -150,7 +156,7 @@ export function AppointmentScheduler({
   return (
     <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
       <div>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#A1805E]">
+        <p className="text-[11px] font-semibold uppercase text-[#A1805E]">
           Agenda en línea
         </p>
         <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-[#152A42] md:text-4xl">
@@ -160,7 +166,7 @@ export function AppointmentScheduler({
           Agenda citas presenciales en Popayán, videollamadas o llamadas telefónicas. Selecciona un día disponible y luego
           el horario que prefieras.
         </p>
-        <p className="mt-2 text-xs uppercase tracking-[0.1em] text-[#A1805E]">
+        <p className="mt-2 text-xs uppercase text-[#A1805E]">
           Atendemos de lunes a viernes. Sábados y domingos no se programan citas.
         </p>
 
@@ -180,7 +186,7 @@ export function AppointmentScheduler({
                   : "border-[#152A42]/15 bg-white text-[#152A42]/70 hover:border-[#A1805E]/50",
               )}
             >
-              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#A1805E]">
+              <span className="text-xs font-semibold uppercase text-[#A1805E]">
                 {day.label}
               </span>
               <p className="text-lg font-semibold text-[#152A42]">{day.dateLabel}</p>
@@ -219,7 +225,7 @@ export function AppointmentScheduler({
         </div>
 
         <div className="mt-6 grid gap-4 border border-[#152A42]/10 bg-white p-5 text-sm text-[#152A42]">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#A1805E]">
+          <p className="text-[11px] font-semibold uppercase text-[#A1805E]">
             Cuéntanos con quién podemos confirmar
           </p>
           <div className="grid gap-3 md:grid-cols-2">
@@ -248,6 +254,37 @@ export function AppointmentScheduler({
                 value={clientPhone}
                 onChange={(event) => setClientPhone(event.target.value)}
                 className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none"
+              />
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-semibold md:col-span-2">
+              Tipo de asunto
+              <select
+                value={selectedTopic}
+                onChange={(event) => setSelectedTopic(event.target.value)}
+                className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none"
+              >
+                {["Derecho pensional", "Conflicto laboral", "Accidente / incapacidad", "Consulta general"].map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-semibold md:col-span-2">
+              Describe brevemente tu situación (opcional)
+              <textarea
+                rows={4}
+                value={caseMessage}
+                onChange={(event) => setCaseMessage(event.target.value)}
+                className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none resize-none"
+              />
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-semibold md:col-span-2">
+              Adjunta documentos (PDF, JPG, PNG) – opcional
+              <input
+                type="file"
+                multiple
+                accept=".pdf,.jpg,.jpeg,.png"
+                onChange={(event) => setAttachedFiles(event.target.files)}
+                className="mt-1 cursor-pointer border border-dashed border-[#152A42]/30 bg-[#F5F4F2] px-3 py-3 text-xs text-[#152A42]/70"
               />
             </label>
           </div>
@@ -297,33 +334,6 @@ export function AppointmentScheduler({
         </div>
       </div>
 
-      <aside className="space-y-6 rounded-2xl border border-[#152A42]/10 bg-white p-8 shadow-sm">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#A1805E]">Modalidades</p>
-          <ul className="mt-4 space-y-3 text-sm text-[#152A42]/80">
-            <li>Presencial en Popayán, videollamada o llamada telefónica.</li>
-            <li>Documentos y expedientes digitales para clientes fuera de la ciudad.</li>
-            <li>Confirmamos detalles y enviamos recordatorio después de agendar.</li>
-          </ul>
-        </div>
-
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#A1805E]">Nuestras oficinas</p>
-          <div className="mt-4 space-y-4">
-            {officeLocations.map((office) => (
-              <div key={office.city} className="border-t border-[#152A42]/10 pt-4">
-                <p className="text-base font-semibold text-[#152A42]">{office.city}</p>
-                <p className="text-sm text-[#152A42]/70">{office.address}</p>
-                <ul className="mt-3 space-y-1 text-xs text-[#152A42]/70">
-                  {office.schedule.map((item) => (
-                    <li key={item}>• {item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </aside>
     </div>
   );
 }

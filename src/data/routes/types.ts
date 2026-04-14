@@ -15,10 +15,49 @@ export type RecognitionItem = {
   description: string;
 };
 
+export type ServiceNarrative = {
+  problem: {
+    label?: string;
+    headline: string;
+    description: string;
+    context?: string;
+  };
+  issues: {
+    label?: string;
+    title: string;
+    items: string[];
+  };
+  consequence: {
+    title: string;
+    description: string;
+  };
+  solution: {
+    title: string;
+    steps: {
+      title: string;
+      bullets: string[];
+    }[];
+  };
+  differential: {
+    title: string;
+    description: string;
+    emphasis?: string;
+  };
+  cta: {
+    title: string;
+    description: string;
+    primaryLabel?: string;
+    primaryHref?: string;
+    secondaryLabel?: string;
+    secondaryHref?: string;
+  };
+};
+
 export type PageCopy = {
   title: string;
   subtitle?: string;
   description: string;
+  afterHeroTitle?: string;
 
   ctaLabel?: string;
   ctaHref?: string;
@@ -47,6 +86,9 @@ export type PageCopy = {
 
   /** Preguntas frecuentes */
   faqs?: readonly FaqItem[];
+
+  /** Estructura narrativa estratégica para páginas de servicio */
+  narrative?: ServiceNarrative;
 
   /** Metadatos SEO */
   seo?: {

@@ -104,7 +104,6 @@ export const primaryNavLinks = [
   { label: "Casos de éxito", href: "/casos-de-exito" },
   { label: "Sobre nosotros", href: "/sobre-nosotros" },
   { label: "Blog", href: "/blog" },
-  { label: "Contacto", href: "/contacto" },
 ];
 
-export const ctaLink = { label: "Consulta Gratuita", href: "/consulta-gratuita" };
+export const ctaLink = { label: "Contacto", href: "/consulta-gratuita#compartir-caso" };

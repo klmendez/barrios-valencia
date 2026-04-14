@@ -7,7 +7,7 @@ export const survivorSupportPages = {
     description:
       "Protegemos el ingreso de tu familia gestionando pensiones de sobrevivientes y prestaciones sustitutivas.",
     ctaLabel: "Revisar mi caso",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Acompañamiento a beneficiarios",
       "Defensa de pensiones y sustituciones",
@@ -45,7 +45,7 @@ export const survivorSupportPages = {
     description:
       "Representamos a beneficiarios para que la pensión continúe y no se pierdan mesadas ya causadas.",
     ctaLabel: "Solicitar revisión",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Validación de calidad de beneficiario",
       "Defensa frente a negativas",
@@ -83,7 +83,7 @@ export const survivorSupportPages = {
     description:
       "Asesoramos parejas que desean sumar semanas y conformar una pensión familiar estable.",
     ctaLabel: "Evaluar viabilidad",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Revisión de requisitos de pareja",
       "Análisis de semanas y condiciones",

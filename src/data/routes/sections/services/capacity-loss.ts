@@ -7,7 +7,7 @@ export const capacityLossPages = {
     description:
       "Te apoyamos cuando un accidente o enfermedad limita tu capacidad para seguir trabajando.",
     ctaLabel: "Evaluar mi caso",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Acompañamiento en calificación y reclamación",
       "Defensa frente a EPS, ARL y fondos",
@@ -62,7 +62,7 @@ export const capacityLossPages = {
     description:
       "Acreditamos la pérdida de capacidad laboral y defendemos tu pensión de invalidez ante fondos y aseguradoras.",
     ctaLabel: "Revisar viabilidad",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Análisis de requisitos y dictámenes",
       "Acompañamiento frente a entidades",
@@ -100,7 +100,7 @@ export const capacityLossPages = {
     description:
       "Acompañamos el proceso de calificación ante EPS, ARL o Juntas para lograr el porcentaje real que corresponde.",
     ctaLabel: "Revisar calificación",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Análisis de dictámenes",
       "Acompañamiento ante juntas y entidades",
@@ -138,7 +138,7 @@ export const capacityLossPages = {
     description:
       "Combinamos dictámenes médicos y argumentos jurídicos para anticipar tu pensión cuando la condición lo permite.",
     ctaLabel: "Evaluar mi caso",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Estudio médico-jurídico",
       "Análisis de normas aplicables",
@@ -171,7 +171,7 @@ export const capacityLossPages = {
     description:
       "Defendemos derechos de víctimas del conflicto o violencia urbana para acceder a pensiones y reparaciones.",
     ctaLabel: "Solicitar orientación",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Acompañamiento integral",
       "Enfoque sensible al contexto de la víctima",

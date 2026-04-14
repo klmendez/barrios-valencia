@@ -1,252 +1,227 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
 import { serviceSections } from "@/data/nav";
 
 const AUTO_ADVANCE_MS = 5000;
-const VISIBLE_COUNT = 3;
 
-const serviceContentMap: Record<
-  string,
-  {
-    title: string;
-    description: string;
-    image: string;
-  }
-> = {
+const serviceContentMap: Record<string, { title: string; description: string; image: string }> = {
   "/servicios/quiero-pensionarme": {
     title: "Pensiones",
-    description:
-      "Te guiamos para consolidar semanas, proyectar montos y lograr tu pensión sin sorpresas.",
+    description: "Te guiamos para consolidar semanas, proyectar montos y lograr tu pensión sin sorpresas.",
     image: "/images/services/pensiones.jpg",
   },
   "/servicios/me-negaron-la-pension-o-me-pagan-mal": {
     title: "Pensión Negada",
-    description:
-      "Impugnamos negaciones y reliquidamos pagos para recuperar lo que te corresponde.",
+    description: "Impugnamos negaciones y reliquidamos pagos para recuperar lo que te corresponde.",
     image: "/images/services/pension-negada.jpg",
   },
   "/servicios/perdi-capacidad-laboral": {
     title: "Salud",
-    description:
-      "Coordinamos dictámenes, recursos y demandas para proteger tu ingreso cuando la salud falla.",
+    description: "Coordinamos dictámenes, recursos y demandas para proteger tu ingreso cuando la salud falla.",
     image: "/images/services/salud.jpg",
   },
   "/servicios/fallecio-un-familiar": {
     title: "Sobrevivencia",
-    description:
-      "Acompañamos a tu familia en reclamaciones de pensión de sobrevivientes y retroactivos.",
+    description: "Acompañamos a tu familia en reclamaciones de pensión de sobrevivientes y retroactivos.",
     image: "/images/services/sobrevivencia.jpg",
   },
   "/servicios/tuve-un-accidente": {
     title: "Accidentes",
-    description:
-      "Activamos ARL, pólizas y procesos contra responsables para cubrir secuelas y gastos.",
+    description: "Atendemos accidentes de trabajo, tránsito y riesgos laborales que afectan tu salud o tu pensión. Activamos ARL, pólizas e indemnizaciones.",
     image: "/images/services/accidentes.jpg",
   },
   "/servicios/tengo-un-problema-laboral": {
     title: "Asuntos Laborales",
-    description:
-      "Defendemos tus derechos frente a despidos, sanciones y conflictos en el trabajo.",
+    description: "Defendemos tus derechos frente a despidos, sanciones y conflictos en el trabajo.",
     image: "/images/services/despido.jpg",
   },
 };
 
-type ServiceCard = {
-  label: string;
-  href: string;
-  title: string;
-  description: string;
-  image: string;
-};
+type ServiceCard = { label: string; href: string; title: string; description: string; image: string };
+
+const extraServices: ServiceCard[] = [
+  {
+    label: "Ya recibí una devolución de saldos",
+    href: "/servicios/quiero-pensionarme/devolucion-de-saldos",
+    title: "Reliquidación de Saldos",
+    description: "Si Colpensiones ya te hizo una devolución de saldos, tienes derecho a exigir una reliquidación. En muchos casos el valor devuelto no está correctamente calculado y puedes reclamar la diferencia.",
+    image: "/images/services/pension-negada.jpg",
+  },
+];
 
 export function ServicesSection() {
   const services: ServiceCard[] = useMemo(() => {
-    return serviceSections.map((section) => {
+    const base = serviceSections.map((section) => {
       const content = serviceContentMap[section.href];
-
       return {
         label: section.label,
         href: section.href,
         title: content?.title ?? section.label,
-        description:
-          content?.description ??
-          "Te acompañamos con una estrategia jurídica clara, precisa y enfocada en tu situación.",
+        description: content?.description ?? "Te acompañamos con una estrategia jurídica clara y enfocada en tu situación.",
         image: content?.image ?? "/images/services/default.jpg",
       };
     });
+    return [...base, ...extraServices];
   }, []);
 
   const [cursor, setCursor] = useState(0);
   const total = services.length;
-  const activeIndex = Math.floor(VISIBLE_COUNT / 2);
+  const ACTIVE_POS = 3; // active card sits at index 3 (center of 7)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  const visibleServices = useMemo(() => {
-    return Array.from({ length: VISIBLE_COUNT }, (_, idx) => {
-      const position = (cursor + idx + total) % total;
-      return services[position];
+  const orderedServices = useMemo(() => {
+    return Array.from({ length: total }, (_, i) => {
+      const idx = (cursor - ACTIVE_POS + i + total) % total;
+      return { ...services[idx], isActive: i === ACTIVE_POS };
     });
   }, [cursor, services, total]);
 
-  useEffect(() => {
-    if (total <= 1) return;
-
-    const interval = setInterval(() => {
+  const startInterval = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
       setCursor((prev) => (prev + 1) % total);
     }, AUTO_ADVANCE_MS);
-
-    return () => clearInterval(interval);
-  }, [total]);
-
-  const handlePrev = () => {
-    setCursor((prev) => (prev - 1 + total) % total);
   };
 
-  const handleNext = () => {
-    setCursor((prev) => (prev + 1) % total);
+  const stopInterval = () => {
+    if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
   };
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { entry.isIntersecting ? startInterval() : stopInterval(); },
+      { threshold: 0.2 },
+    );
+    observer.observe(section);
+    return () => { observer.disconnect(); stopInterval(); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handlePrev = () => { setCursor((prev) => (prev - 1 + total) % total); startInterval(); };
+  const handleNext = () => { setCursor((prev) => (prev + 1) % total); startInterval(); };
 
   return (
-    <section className="bg-surface py-16 md:py-20">
-      <Container>
-        <div className="grid gap-10 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-start xl:gap-14">
-          <div className="max-w-sm">
-            <h2 className="section-title text-navy">Servicios</h2>
-
-            <p className="section-subtitle mt-3 text-base text-[#A1805E]">
-              Soluciones jurídicas según tu situación
-            </p>
-
-            <p className="section-lead mt-4 text-muted">
-              Somos especialistas en pensiones, seguridad social y derecho
-              laboral; organizamos los servicios por rutas claras para que
-              identifiques rápido el camino jurídico más conveniente.
-            </p>
-
-            <Button
-              asChild
-              className="mt-6 min-w-[200px] [--btn-bg:#A1805E] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#A1805E]"
+    <section ref={sectionRef} className="overflow-hidden bg-[#F5F4F2]">
+      {/* Carousel strip — desktop */}
+      <div className="relative hidden md:flex h-[320px] bg-[#152A42] px-4 md:px-8 lg:px-12">
+        {/* Title overlay */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 pt-5 text-center">
+          <h2 className="text-3xl font-semibold tracking-[-0.03em] text-white md:text-4xl">Servicios</h2>
+        </div>
+        {/* Top fade so title is readable over images */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-28 bg-gradient-to-b from-[#152A42]/80 to-transparent" />
+        {orderedServices.map((service) => {
+          const { isActive } = service;
+          return (
+            <Link
+              key={`${service.href}-${service.isActive}`}
+              href={service.href}
+              className="group relative overflow-hidden transition-all duration-500 ease-in-out"
+              style={{ flex: isActive ? "5 0 0%" : "1 0 0%" }}
             >
-              <Link href="/contacto">Consulta Gratis</Link>
-            </Button>
-          </div>
+              <Image
+                src={service.image}
+                alt={service.title}
+                fill
+                className="object-cover transition duration-700 group-hover:scale-105"
+                sizes="(min-width: 768px) 30vw, 100vw"
+              />
+              {/* Gradient / overlay */}
+              {isActive ? (
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+              ) : (
+                <div className="absolute inset-0 bg-[#152A42]/90" />
+              )}
 
-          <div className="space-y-6">
-            <div className="hidden md:block">
-              <div className="border-t border-border">
-                {visibleServices.map((service, index) => {
-                  const isActive = index === activeIndex;
-
-                  return (
-                    <Link
-                      key={`${service.href}-${index}`}
-                      href={service.href}
-                      className={`group grid grid-cols-[100px_minmax(0,1fr)] items-center gap-6 border-b border-border py-6 transition duration-300 ${
-                        isActive ? "bg-white/10" : "bg-transparent hover:bg-white/5"
-                      }`}
-                    >
-                      <div className="relative h-24 w-24 overflow-hidden border border-gold/50">
-                        <Image
-                          src={service.image}
-                          alt={service.title}
-                          fill
-                          className="object-cover transition duration-500 group-hover:scale-110"
-                        />
-                      </div>
-
-                      <div className="space-y-3">
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold font-[Montserrat]">
-                            {service.label}
-                          </p>
-                          <h3 className="text-2xl font-semibold text-navy font-[Montserrat]">
-                            {service.title}
-                          </h3>
-                        </div>
-
-                        <p className="text-base leading-7 text-muted font-[Montserrat]">
-                          {service.description}
-                        </p>
-
-                        <span className="inline-flex items-center text-sm font-semibold text-gold underline underline-offset-4 font-[Montserrat]">
-                          Ver más →
-                        </span>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="md:hidden">
-              <Link
-                href={visibleServices[activeIndex]?.href ?? "#"}
-                className="group grid grid-cols-[90px_minmax(0,1fr)] gap-4 border-t border-b border-border py-6"
-              >
-                <div className="relative h-20 w-20 overflow-hidden border border-gold/50">
-                  <Image
-                    src={visibleServices[activeIndex]?.image ?? "/images/services/default.jpg"}
-                    alt={visibleServices[activeIndex]?.title ?? "Servicio"}
-                    fill
-                    className="object-cover transition duration-500 group-hover:scale-110"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-gold font-[Montserrat]">
-                    {visibleServices[activeIndex]?.label}
-                  </p>
-                  <h3 className="text-2xl font-semibold text-navy font-[Montserrat]">
-                    {visibleServices[activeIndex]?.title}
-                  </h3>
-                  <p className="text-sm leading-6 text-muted font-[Montserrat]">
-                    {visibleServices[activeIndex]?.description}
-                  </p>
-                  <span className="inline-flex items-center text-sm font-semibold text-gold underline underline-offset-4 font-[Montserrat]">
-                    Ver más →
+              {/* Overlay content */}
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                {isActive ? (
+                  <>
+                    <span className="inline-block bg-[#152A42] px-2 py-1 text-xs font-semibold uppercase text-white">{service.label}</span>
+                    <h3 className="mt-1 text-2xl font-semibold leading-tight text-white">{service.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-white/75 line-clamp-2">{service.description}</p>
+                    <span className="mt-3 inline-flex h-8 w-8 items-center justify-center bg-[#A1805E] text-white text-sm">
+                      →
+                    </span>
+                  </>
+                ) : (
+                  <span className="inline-block bg-white/10 px-2 py-1 text-xs font-medium text-white/80 leading-snug">
+                    {service.label}
                   </span>
-                </div>
-              </Link>
-            </div>
-
-            <div className="flex items-center justify-center gap-3 md:justify-end">
-              <button
-                type="button"
-                onClick={handlePrev}
-                className="flex h-11 w-11 items-center justify-center border border-border bg-white text-navy shadow-sm transition hover:border-gold/50 hover:text-gold"
-                aria-label="Anterior"
-              >
-                ‹
-              </button>
-
-              <div className="flex items-center gap-2">
-                {services.map((_, index) => {
-                  const isCurrent = index === (cursor + activeIndex) % total;
-
-                  return (
-                    <span
-                      key={index}
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        isCurrent ? "w-6 bg-gold" : "w-2 bg-border"
-                      }`}
-                    />
-                  );
-                })}
+                )}
               </div>
+            </Link>
+          );
+        })}
+      </div>
 
+      {/* Carousel mobile — single card */}
+      <div className="md:hidden">
+        <Link href={services[cursor].href} className="group relative block h-[220px] overflow-hidden">
+          <Image
+            src={services[cursor].image}
+            alt={services[cursor].title}
+            fill
+            className="object-cover transition duration-700 group-hover:scale-105"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+          <div className="absolute bottom-0 left-0 p-5">
+            <p className="text-[10px] font-semibold uppercase text-[#A1805E]">{services[cursor].label}</p>
+            <h3 className="mt-1 text-xl font-semibold text-white">{services[cursor].title}</h3>
+            <p className="mt-2 text-xs leading-5 text-white/70">{services[cursor].description}</p>
+            <span className="mt-3 inline-flex h-8 w-8 items-center justify-center bg-[#A1805E] text-white text-sm">→</span>
+          </div>
+        </Link>
+        <div className="flex items-center justify-between px-4 py-4">
+          <button type="button" onClick={handlePrev} aria-label="Anterior" className="flex h-9 w-9 items-center justify-center border border-[#152A42]/20 text-xl text-[#152A42]">‹</button>
+          <div className="flex gap-1.5">
+            {services.map((_, i) => (
+              <button key={i} type="button" onClick={() => { setCursor(i); startInterval(); }} className={`h-1.5 rounded-full transition-all duration-300 ${i === cursor ? "w-5 bg-[#152A42]" : "w-1.5 bg-[#152A42]/25"}`} />
+            ))}
+          </div>
+          <button type="button" onClick={handleNext} aria-label="Siguiente" className="flex h-9 w-9 items-center justify-center border border-[#152A42]/20 text-xl text-[#152A42]">›</button>
+        </div>
+      </div>
+
+      {/* Dots + Arrows — desktop */}
+      <Container>
+        <div className="hidden items-center justify-between py-4 md:flex">
+          <div className="flex gap-1.5">
+            {services.map((_, i) => (
               <button
+                key={i}
                 type="button"
-                onClick={handleNext}
-                className="flex h-11 w-11 items-center justify-center border border-border bg-white text-navy shadow-sm transition hover:border-gold/50 hover:text-gold"
-                aria-label="Siguiente"
-              >
-                ›
-              </button>
-            </div>
+                onClick={() => { setCursor(i); startInterval(); }}
+                aria-label={`Ir al servicio ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === cursor ? "w-5 bg-[#152A42]" : "w-1.5 bg-[#152A42]/25"}`}
+              />
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Anterior"
+              className="flex h-9 w-9 items-center justify-center bg-[#152A42] text-xl text-white transition hover:bg-[#0b1726]"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label="Siguiente"
+              className="flex h-9 w-9 items-center justify-center bg-[#152A42] text-xl text-white transition hover:bg-[#0b1726]"
+            >
+              ›
+            </button>
           </div>
         </div>
       </Container>

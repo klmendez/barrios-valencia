@@ -7,7 +7,7 @@ export const accidentSupportPages = {
     description:
       "Defendemos tu recuperación económica luego de accidentes laborales, de tránsito o enfermedades derivadas del trabajo.",
     ctaLabel: "Solicitar orientación",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Atención integral frente a accidentes y sus consecuencias",
       "Revisión de seguros, ARL y responsabilidad",
@@ -62,7 +62,7 @@ export const accidentSupportPages = {
     description:
       "Litigamos frente a la ARL para obtener prestaciones, tratamientos y compensaciones completas.",
     ctaLabel: "Revisar accidente",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Análisis del origen laboral",
       "Defensa frente a ARL y empleadores",
@@ -100,7 +100,7 @@ export const accidentSupportPages = {
     description:
       "Probamos el origen laboral de enfermedades y reclamamos prestaciones asistenciales y económicas.",
     ctaLabel: "Evaluar enfermedad laboral",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Análisis de origen laboral",
       "Soporte médico-jurídico",
@@ -138,7 +138,7 @@ export const accidentSupportPages = {
     description:
       "Gestionamos reclamaciones ante aseguradoras y responsables civiles para cubrir daños y lucro cesante.",
     ctaLabel: "Revisar accidente",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Reclamación frente a aseguradoras y terceros",
       "Análisis de daños y lucro cesante",
@@ -176,7 +176,7 @@ export const accidentSupportPages = {
     description:
       "Activamos pólizas de vida, ARL, SOAT y seguros colectivos buscando la mayor indemnización posible.",
     ctaLabel: "Revisar póliza",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Estudio de pólizas y coberturas",
       "Defensa frente a negativas de aseguradoras",

@@ -5,6 +5,7 @@ import { SignalMatrixSection } from "@/app/(home)/sections/SignalMatrix";
 import { InstagramSection } from "@/app/(home)/sections/Instagram";
 import { WhyChooseUsSection } from "@/app/(home)/sections/WhyChooseUs";
 import { CallToActionSection } from "@/app/(home)/sections/CallToAction";
+import { ContactInfoSection } from "@/app/(home)/sections/ContactInfo";
 
 export default function Home() {
   return (
@@ -15,7 +16,8 @@ export default function Home() {
       <SignalMatrixSection />
       <CaseTickerSection />
       <InstagramSection />
-            <CallToActionSection />
+      <ContactInfoSection />
+      <CallToActionSection />
 
     </div>
   );

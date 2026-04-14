@@ -1,13 +1,17 @@
 import type { PageCopy } from "../../types";
 
+const serviceWhatsappUrl =
+  "https://api.whatsapp.com/send?phone=573005687950&text=Hola%20Barrios%20Valencia%20Abogados,%20necesito%20asesor%C3%ADa.";
+
 export const pensionPlanningPages = {
   "/servicios/quiero-pensionarme": {
     title: "Quiero pensionarme",
     subtitle: "Planeamos contigo el camino más seguro para lograr tu pensión",
     description:
       "Diseñamos estrategias para anticipar, proyectar y materializar tu pensión de la forma más eficiente y segura.",
+    afterHeroTitle: "La pensión: qué tiene y toda la información correspondiente",
     ctaLabel: "Revisar mi caso",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Análisis de edad, semanas y régimen aplicable",
       "Proyección jurídica y financiera",
@@ -49,6 +53,75 @@ export const pensionPlanningPages = {
           "Detectamos inconsistencias en historia laboral, vacíos de información, periodos no reportados o aspectos normativos que podrían generar negativas o retrasos.",
       },
     ],
+    narrative: {
+      problem: {
+        label: "Definición del problema",
+        headline: "La pensión de vejez no es un trámite automático",
+        description:
+          "Muchas personas llegan a este punto con errores en su historia laboral, dudas sobre su régimen o sin claridad sobre si realmente cumplen los requisitos.",
+        context:
+          "Antes de radicar debes confirmar con precisión semanas, edad, fondo y soportes. De lo contrario, el proceso puede detenerse durante meses o terminar en una negativa.",
+      },
+      issues: {
+        label: "Problemas frecuentes",
+        title: "Quizás te identificas con alguno de estos escenarios",
+        items: [
+          "Crees que ya cumples edad y semanas, pero no tienes confirmación",
+          "No sabes qué régimen o traslado te aplica en este momento",
+          "Tu historia laboral tiene inconsistencias o empleadores que no cotizaron",
+          "Temes que te nieguen la pensión o que la liquiden con errores",
+          "No tienes claro si estás recibiendo el valor correcto en simulaciones",
+        ],
+      },
+      consequence: {
+        title: "Si lo dejas pasar",
+        description:
+          "Un error en esta etapa puede retrasar tu pensión por años o reducir de forma permanente el valor que recibirás mes a mes.",
+      },
+      solution: {
+        title: "Cómo te ayudamos",
+        steps: [
+          {
+            title: "1. Revisión técnica completa",
+            bullets: [
+              "Semanas reales vs. registradas",
+              "Identificación del régimen aplicable y beneficios",
+              "Validación de requisitos legales y documentales",
+            ],
+          },
+          {
+            title: "2. Corrección de inconsistencias",
+            bullets: [
+              "Historia laboral depurada y soportes faltantes",
+              "Requerimientos a empleadores o fondos",
+              "Ajustes antes de radicar para disminuir riesgos",
+            ],
+          },
+          {
+            title: "3. Acompañamiento en el trámite",
+            bullets: [
+              "Radicación completa y ordenada",
+              "Seguimiento a la respuesta de la entidad",
+              "Acciones frente a negativas, demoras o liquidaciones erradas",
+            ],
+          },
+        ],
+      },
+      differential: {
+        title: "Nuestro diferencial",
+        description:
+          "Muchas pensiones en Colombia están mal liquidadas. No solo tramitamos: verificamos cada cifra y hacemos los ajustes necesarios para que recibas exactamente lo que te corresponde.",
+        emphasis: "Revisión jurídica + matemática en un solo equipo",
+      },
+      cta: {
+        title: "Evita errores antes de radicar tu pensión",
+        description: "Solicita una revisión previa o escríbenos por WhatsApp para analizar tu caso paso a paso.",
+        primaryLabel: "Solicitar revisión",
+        primaryHref: "/consulta-gratuita",
+        secondaryLabel: "WhatsApp",
+        secondaryHref: serviceWhatsappUrl,
+      },
+    },
     seo: {
       title: "Quiero pensionarme | Barrios Valencia Abogados",
       description:
@@ -60,7 +133,7 @@ export const pensionPlanningPages = {
     title: "Pensión de vejez",
     description: "",
     ctaLabel: "Solicitar revisión",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [],
     recognitionSection: {
       title: "¿Te identificas con alguna de estas situaciones?",
@@ -111,7 +184,7 @@ export const pensionPlanningPages = {
     description:
       "Evaluamos regímenes especiales y beneficios para adelantar tu pensión cuando cumples condiciones particulares.",
     ctaLabel: "Evaluar viabilidad",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Estudio de condiciones especiales",
       "Revisión normativa y jurisprudencial",
@@ -149,7 +222,7 @@ export const pensionPlanningPages = {
     description:
       "Acompañamos la acreditación y defensa del beneficio para madres y padres con hijos en condición de discapacidad.",
     ctaLabel: "Consultar mi caso",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Acompañamiento en requisitos y pruebas",
       "Revisión de documentación médica y jurídica",
@@ -187,7 +260,7 @@ export const pensionPlanningPages = {
     description:
       "Simulamos escenarios financieros y normativos para tomar decisiones informadas sobre tu retiro.",
     ctaLabel: "Solicitar proyección",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Simulación de escenarios posibles",
       "Análisis de semanas, ingresos y tiempos",
@@ -225,7 +298,7 @@ export const pensionPlanningPages = {
     description:
       "Gestionamos devoluciones y bonos pensionales en fondos privados y Colpensiones con trazabilidad total.",
     ctaLabel: "Revisar mi solicitud",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Análisis de viabilidad",
       "Gestión frente a fondos y entidades",
@@ -246,14 +319,31 @@ export const pensionPlanningPages = {
           description:
             "Has iniciado gestiones con la entidad, pero no recibes claridad o avance real sobre los recursos reclamados.",
         },
+        {
+          title: "Ya recibiste una devolución de saldos de Colpensiones",
+          description:
+            "Si Colpensiones ya te hizo una devolución de saldos, tienes derecho a exigir una reliquidación. En muchos casos el valor devuelto no está correctamente calculado y puedes reclamar la diferencia.",
+        },
       ],
     },
     intro:
-      "La devolución de saldos y los bonos pensionales exigen una revisión técnica del historial, del régimen aplicable y de la situación del afiliado para formular adecuadamente la solicitud.",
+      "La devolución de saldos y los bonos pensionales exigen una revisión técnica del historial, del régimen aplicable y de la situación del afiliado para formular adecuadamente la solicitud. Si ya recibiste una devolución de Colpensiones, revisa si el valor fue liquidado correctamente: tienes derecho a exigir una reliquidación.",
+    sections: [
+      {
+        title: "¿Ya te hicieron una devolución de saldos?",
+        content:
+          "Si Colpensiones ya realizó la devolución de tus saldos pensionales, eso no cierra la posibilidad de reclamar. Si el monto no fue calculado correctamente —considerando semanas, salarios base e intereses— tienes derecho a una reliquidación y al pago de la diferencia. Muchas devoluciones se hacen con errores que perjudican al afiliado.",
+      },
+      {
+        title: "Cómo verificamos si la devolución fue correcta",
+        content:
+          "Revisamos tu historia laboral completa, los aportes registrados y el cálculo aplicado por Colpensiones para determinar si existe una diferencia a tu favor. Si la hay, gestionamos la reclamación administrativa o judicial correspondiente.",
+      },
+    ],
     seo: {
       title: "Devolución de saldos | Barrios Valencia Abogados",
       description:
-        "Gestión legal de devolución de saldos y bonos pensionales en Colombia.",
+        "Gestión legal de devolución de saldos y bonos pensionales en Colombia. Si ya recibiste una devolución de Colpensiones, puedes exigir reliquidación.",
     },
   },
 } satisfies Record<string, PageCopy>;

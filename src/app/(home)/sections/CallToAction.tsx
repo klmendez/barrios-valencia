@@ -3,8 +3,11 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { ShareCaseForm } from "@/app/contacto/_components/ShareCaseForm";
 
 export function CallToActionSection() {
+  const whatsappPhone = "573005687950";
+
   return (
     <section className="bg-[#152A42] py-20 text-[#F5F4F2] md:py-24">
       <Container>
@@ -49,8 +52,9 @@ export function CallToActionSection() {
               </div>
             </div>
 
-            
-
+            <div className="bg-white text-[#152A42]">
+              <ShareCaseForm whatsappPhone={whatsappPhone} compact />
+            </div>
           </div>
         </div>
       </Container>

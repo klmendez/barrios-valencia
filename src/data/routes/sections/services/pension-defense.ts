@@ -7,7 +7,7 @@ export const pensionDefensePages = {
     description:
       "Defendemos tu derecho cuando una pensión es negada, reliquidada en tu contra o presenta pagos incompletos.",
     ctaLabel: "Solicitar revisión",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     secondaryCtaLabel: "Ver casos de éxito",
     secondaryCtaHref: "/casos-de-exito",
     highlights: [
@@ -81,7 +81,7 @@ export const pensionDefensePages = {
     description:
       "Revisamos la negativa, aportamos nuevas pruebas y litigamos hasta lograr el reconocimiento pensional.",
     ctaLabel: "Revisar negativa",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Análisis del acto administrativo",
       "Construcción de estrategia probatoria",
@@ -119,7 +119,7 @@ export const pensionDefensePages = {
     description:
       "Ajustamos el ingreso base y factores salariales para que recibas la mesada correcta.",
     ctaLabel: "Solicitar reliquidación",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Revisión del ingreso base de liquidación",
       "Análisis de factores salariales",
@@ -157,7 +157,7 @@ export const pensionDefensePages = {
     description:
       "Demandamos retroactivos causados por demoras administrativas o fallos en el pago oportuno.",
     ctaLabel: "Reclamar retroactivo",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Revisión de periodos adeudados",
       "Análisis de causación y exigibilidad",
@@ -195,7 +195,7 @@ export const pensionDefensePages = {
     description:
       "Depuramos tu historia laboral, sumamos semanas omitidas y acreditamos aportes no registrados.",
     ctaLabel: "Corregir historia laboral",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Identificación de omisiones e inconsistencias",
       "Reconstrucción documental de aportes",

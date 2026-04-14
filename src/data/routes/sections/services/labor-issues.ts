@@ -7,7 +7,7 @@ export const laborIssuesPages = {
     description:
       "Representamos trabajadores y directivos en conflictos disciplinarios, despidos y reclamaciones salariales.",
     ctaLabel: "Solicitar orientación",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Defensa en conflictos laborales individuales",
       "Acompañamiento preventivo y contencioso",
@@ -62,7 +62,7 @@ export const laborIssuesPages = {
     description:
       "Impugnamos despidos sin causa, negociamos indemnizaciones y reinstalaciones con respaldo probatorio.",
     ctaLabel: "Revisar despido",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Revisión de causa y procedimiento",
       "Defensa del trabajador",
@@ -100,7 +100,7 @@ export const laborIssuesPages = {
     description:
       "Auditamos liquidaciones finales y exigimos el pago correcto de primas, cesantías y vacaciones.",
     ctaLabel: "Revisar liquidación",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Revisión integral de liquidación",
       "Validación de prestaciones sociales",
@@ -138,7 +138,7 @@ export const laborIssuesPages = {
     description:
       "Acompañamos descargos y negociaciones para proteger tu buen nombre y trayectoria profesional.",
     ctaLabel: "Preparar descargos",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Acompañamiento preventivo y reactivo",
       "Preparación de descargos",
@@ -176,7 +176,7 @@ export const laborIssuesPages = {
     description:
       "Litigamos reclamaciones individuales y colectivas ante jueces laborales y tribunales de arbitramento.",
     ctaLabel: "Evaluar demanda",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Construcción técnica de la demanda",
       "Estrategia procesal y probatoria",
@@ -214,7 +214,7 @@ export const laborIssuesPages = {
     description:
       "Implementamos defensas frente a sanciones del Ministerio y diseñamos políticas preventivas.",
     ctaLabel: "Solicitar orientación",
-    ctaHref: "/consulta-gratuita",
+    ctaHref: "/consulta-gratuita#compartir-caso",
     highlights: [
       "Acompañamiento frente a sanciones y requerimientos",
       "Análisis preventivo de cumplimiento",
