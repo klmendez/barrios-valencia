@@ -116,7 +116,7 @@ export function MobileMenu({ open, onClose, serviceSections, primaryLinks, cta }
                         type="button"
                         aria-expanded={expanded}
                         aria-controls={id}
-                        className="flex w-full items-center justify-between px-4 py-3 text-left font-display text-sm font-semibold uppercase tracking-[0.2em] text-white"
+                        className="flex w-full items-center justify-between px-4 py-3 text-left font-display text-sm font-semibold text-white"
                         onClick={() => setOpenSection(expanded ? null : section.href)}
                       >
                         {section.label}

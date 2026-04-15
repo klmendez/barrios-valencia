@@ -108,7 +108,7 @@ function SidebarContent({ whatsappUrl }: { whatsappUrl: string }) {
 
 export default function ConsultaGratuitaPage() {
   return (
-    <main className="bg-white text-[#152A42]">
+    <div className="overflow-x-hidden bg-white text-[#152A42]">
       {/* Hero */}
       <section className="relative -mt-20 overflow-hidden bg-[#152A42] pt-28 pb-8 text-center text-[#F5F4F2] md:pt-32 md:pb-10">
         <Container className="max-w-xl">
@@ -122,7 +122,7 @@ export default function ConsultaGratuitaPage() {
       </section>
 
       {/* Cuerpo: contenido izquierda + sidebar derecha sticky */}
-      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:flex lg:items-start lg:gap-0 lg:px-8">
+      <div className="mx-auto max-w-screen-xl px-5 sm:px-8 lg:flex lg:items-start lg:gap-0 lg:px-10">
 
         {/* Columna izquierda: scrollable */}
         <div className="flex-1 min-w-0">
@@ -145,9 +145,9 @@ export default function ConsultaGratuitaPage() {
       </div>
 
       {/* Mobile: contacto al final */}
-      <section className="border-t border-[#152A42]/10 bg-white px-4 py-10 sm:px-6 lg:hidden">
+      <section className="border-t border-[#152A42]/10 bg-white px-5 py-10 sm:px-8 lg:hidden">
         <SidebarContent whatsappUrl={whatsappUrl} />
       </section>
-    </main>
+    </div>
   );
 }

@@ -7,15 +7,15 @@ export function WhatsappBubble() {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="group fixed bottom-6 right-6 z-50 focus-visible:outline-none"
+      className="group fixed bottom-4 right-4 z-40 focus-visible:outline-none sm:bottom-6 sm:right-6"
       aria-label="Iniciar conversación por WhatsApp"
     >
       <span className="sr-only">Escríbenos por WhatsApp</span>
       <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-[#25D366]/40 opacity-75" aria-hidden />
-      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl shadow-[#0B1220]/20 transition hover:scale-105 focus-visible:ring-4 focus-visible:ring-[#25D366]/40">
+      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl shadow-[#0B1220]/20 transition hover:scale-105 focus-visible:ring-4 focus-visible:ring-[#25D366]/40 sm:h-14 sm:w-14">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-7 w-7"
+          className="h-5 w-5 sm:h-6 sm:w-6"
           viewBox="0 0 24 24"
           fill="currentColor"
           role="img"

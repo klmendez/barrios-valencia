@@ -19,6 +19,20 @@ const CASES = [
     location: "Medellín",
   },
   {
+    tag: "Ley 71 · Tasa de reemplazo",
+    title: "Testimonio real",
+    headline: "De 75% a 90% por demanda laboral",
+    description:
+      "Reinaldo Muñoz fue pensionado en 1988 con ley 71 al 75%, cuando tenía derecho al 90%. Colpensiones negó la reliquidación. Iniciamos demanda laboral y logramos el 90% más retroactivo pensional.",
+    metrics: [
+      { label: "Tasa inicial", value: "75%" },
+      { label: "Tasa final", value: "90%" },
+      { label: "Resultado", value: "Retroactivo" },
+    ],
+    quote: "Del 75% brinqué al 85% y luego al 90%, quedé pensionado con el 90%.",
+    location: "Colombia",
+  },
+  {
     tag: "Sobrevivencia",
     title: "Ingreso familiar protegido",
     headline: "Reconocimos pensión para madre e hija",

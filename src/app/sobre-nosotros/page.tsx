@@ -248,7 +248,7 @@ export default function AboutPage() {
   return (
     <main className={cn(montserrat.className, "bg-[#F5F4F2] text-[#152A42]")}>
       {/* HERO */}
-      <section className="border-b border-[#152A42]/10 py-20">
+      <section className="-mt-20 border-b border-[#152A42]/10 pb-20 pt-40">
         <Container className="grid items-end gap-10 lg:grid-cols-2">
           <div>
             <p className="text-[10px] uppercase tracking-[0.25em] text-[#152A42]/50">

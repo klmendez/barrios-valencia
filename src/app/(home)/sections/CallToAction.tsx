@@ -52,7 +52,7 @@ export function CallToActionSection() {
               </div>
             </div>
 
-            <div className="bg-white text-[#152A42]">
+            <div className="min-w-0 overflow-hidden bg-white text-[#152A42]">
               <ShareCaseForm whatsappPhone={whatsappPhone} compact />
             </div>
           </div>

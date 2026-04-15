@@ -225,7 +225,7 @@ export function SignalMatrixSection() {
             <img
               src={active.image}
               alt={active.title}
-              className="h-72 w-full object-cover"
+              className="max-h-72 w-full object-contain"
             />
           </div>
           <div className="mt-3">
@@ -246,13 +246,12 @@ export function SignalMatrixSection() {
               {active.description}
             </p>
           </div>
-          <div className="relative h-[520px] overflow-hidden shadow-2xl">
+          <div className="overflow-hidden shadow-2xl">
             <img
               src={active.image}
               alt={active.title}
-              className="h-full w-full object-cover"
+              className="max-h-[520px] w-full object-contain"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#152A42]/50 via-transparent to-transparent" />
           </div>
         </div>
       </Container>

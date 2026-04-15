@@ -13,7 +13,14 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-export const metadata: Metadata = defaultMetadata;
+export const metadata: Metadata = {
+  ...defaultMetadata,
+  icons: {
+    icon: "/brand/b.png",
+    shortcut: "/brand/b.png",
+    apple: "/brand/b.png",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -24,7 +31,7 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${montserrat.variable} bg-surface text-ink antialiased flex min-h-screen flex-col`}>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pt-20">{children}</main>
         <WhatsappBubble />
         <Footer />
       </body>

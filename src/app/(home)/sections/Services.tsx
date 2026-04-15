@@ -174,7 +174,7 @@ export function ServicesSection() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 p-5">
-            <p className="text-[10px] font-semibold uppercase text-[#A1805E]">{services[cursor].label}</p>
+            <span className="inline-block bg-[#152A42] px-2 py-1 text-xs font-semibold uppercase text-white">{services[cursor].label}</span>
             <h3 className="mt-1 text-xl font-semibold text-white">{services[cursor].title}</h3>
             <p className="mt-2 text-xs leading-5 text-white/70">{services[cursor].description}</p>
             <span className="mt-3 inline-flex h-8 w-8 items-center justify-center bg-[#A1805E] text-white text-sm">→</span>

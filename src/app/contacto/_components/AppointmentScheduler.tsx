@@ -1,86 +1,141 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
-type SchedulerSlot = {
-  id: string;
-  time: string;
-  channel: string;
-};
+type OfficeLocation = { city: string; address: string; schedule: string[] };
 
-type SchedulerDay = {
-  id: string;
-  label: string;
-  dateLabel: string;
-  fullLabel: string;
-  slots: SchedulerSlot[];
-};
-
-type OfficeLocation = {
-  city: string;
-  address: string;
-  schedule: string[];
-};
-
-const slotTemplates = [
-  { time: "8:30 a.m.", channel: "Videollamada" },
-  { time: "10:00 a.m.", channel: "Oficina Popayán" },
-  { time: "3:00 p.m.", channel: "Llamada telefónica" },
+const TIMES = [
+  { label: "8:00 a.m.",  hour: 8  },
+  { label: "9:00 a.m.",  hour: 9  },
+  { label: "10:00 a.m.", hour: 10 },
+  { label: "11:00 a.m.", hour: 11 },
+  { label: "2:00 p.m.",  hour: 14 },
+  { label: "3:00 p.m.",  hour: 15 },
+  { label: "4:00 p.m.",  hour: 16 },
+  { label: "5:00 p.m.",  hour: 17 },
+  { label: "6:00 p.m.",  hour: 18 },
 ];
 
-function buildSchedulerDays(count = 5): SchedulerDay[] {
-  const baseDate = new Date();
-  const days: SchedulerDay[] = [];
-  let offset = 0;
+const CHANNELS = ["Videollamada", "Oficina Popayán", "Llamada telefónica"];
 
-  while (days.length < count) {
-    const date = new Date(baseDate);
-    date.setDate(baseDate.getDate() + offset);
-    offset += 1;
+function capitalize(v: string) { return v ? v.charAt(0).toUpperCase() + v.slice(1) : v; }
 
-    const dayOfWeek = date.getDay();
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-      continue;
-    }
-
-    const id = date.toISOString().split("T")[0];
-    const weekday = capitalize(
-      date.toLocaleDateString("es-CO", { weekday: "short" }),
-    );
-    const dateLabel = date.toLocaleDateString("es-CO", {
-      day: "numeric",
-      month: "short",
-    });
-    const fullLabel = capitalize(
-      date.toLocaleDateString("es-CO", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-      }),
-    );
-
-    const slots = slotTemplates.map((template, slotIndex) => ({
-      ...template,
-      id: `${id}-${slotIndex}`,
-    }));
-
-    days.push({
-      id,
-      label: weekday,
-      dateLabel,
-      fullLabel,
-      slots,
-    });
-  }
-
-  return days;
+function toDateId(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 }
 
-function capitalize(value: string) {
-  if (!value) return value;
-  return value.charAt(0).toUpperCase() + value.slice(1);
+function isWeekday(d: Date) { const w = d.getDay(); return w !== 0 && w !== 6; }
+
+function startOfDay(d: Date) {
+  const c = new Date(d); c.setHours(0, 0, 0, 0); return c;
+}
+
+const DAY_HEADERS = ["L", "M", "X", "J", "V", "S", "D"];
+
+function MiniCalendar({
+  selectedDateId,
+  onSelect,
+}: {
+  selectedDateId: string | null;
+  onSelect: (id: string) => void;
+}) {
+  const now = new Date();
+  const today = startOfDay(now);
+  const [viewYear, setViewYear] = useState(today.getFullYear());
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
+
+  const monthLabel = capitalize(
+    new Date(viewYear, viewMonth, 1).toLocaleDateString("es-CO", { month: "long", year: "numeric" })
+  );
+
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const rawDow = new Date(viewYear, viewMonth, 1).getDay();
+  const startOffset = rawDow === 0 ? 6 : rawDow - 1;
+
+  const cells: (Date | null)[] = [];
+  for (let i = 0; i < startOffset; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(new Date(viewYear, viewMonth, d));
+
+  const prevMonth = () => {
+    if (viewMonth === 0) { setViewYear(y => y - 1); setViewMonth(11); }
+    else setViewMonth(m => m - 1);
+  };
+  const nextMonth = () => {
+    if (viewMonth === 11) { setViewYear(y => y + 1); setViewMonth(0); }
+    else setViewMonth(m => m + 1);
+  };
+
+  return (
+    <div className="w-full select-none rounded-none border border-[#152A42]/10 bg-white p-4">
+      <div className="mb-4 flex items-center justify-between">
+        <button
+          type="button"
+          onClick={prevMonth}
+          className="flex h-8 w-8 items-center justify-center border border-[#152A42]/20 text-lg text-[#152A42] transition hover:bg-[#152A42] hover:text-white"
+          aria-label="Mes anterior"
+        >‹</button>
+        <p className="text-sm font-semibold capitalize text-[#152A42]">{monthLabel}</p>
+        <button
+          type="button"
+          onClick={nextMonth}
+          className="flex h-8 w-8 items-center justify-center border border-[#152A42]/20 text-lg text-[#152A42] transition hover:bg-[#152A42] hover:text-white"
+          aria-label="Mes siguiente"
+        >›</button>
+      </div>
+
+      <div className="mb-2 grid grid-cols-7">
+        {DAY_HEADERS.map((h, i) => (
+          <div
+            key={h + i}
+            className={cn(
+              "py-1 text-center text-[10px] font-bold uppercase tracking-wider",
+              i >= 5 ? "text-[#152A42]/20" : "text-[#A1805E]"
+            )}
+          >
+            {h}
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-7 gap-y-1">
+        {cells.map((date, idx) => {
+          if (!date) return <div key={`blank-${idx}`} />;
+          const id = toDateId(date);
+          const isSelected = id === selectedDateId;
+          const isToday = date.getTime() === today.getTime();
+          const allSlotsPast = isToday && now.getHours() >= 18;
+          const disabled = !isWeekday(date) || startOfDay(date) < today || allSlotsPast;
+          return (
+            <button
+              key={id}
+              type="button"
+              disabled={disabled}
+              onClick={() => onSelect(id)}
+              className={cn(
+                "mx-auto flex h-8 w-8 items-center justify-center text-sm font-medium transition",
+                disabled
+                  ? "cursor-not-allowed text-[#152A42]/18"
+                  : isSelected
+                    ? "bg-[#152A42] text-white"
+                    : isToday
+                      ? "border border-[#A1805E] text-[#152A42] hover:bg-[#152A42] hover:text-white"
+                      : "text-[#152A42] hover:bg-[#152A42]/10"
+              )}
+              aria-pressed={isSelected}
+              aria-label={date.toLocaleDateString("es-CO", { weekday: "long", day: "numeric", month: "long" })}
+            >
+              {date.getDate()}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 interface AppointmentSchedulerProps {
@@ -90,33 +145,51 @@ interface AppointmentSchedulerProps {
 
 export function AppointmentScheduler({
   whatsappPhone,
-  officeLocations,
 }: AppointmentSchedulerProps) {
-  const schedulerDays = useMemo(() => buildSchedulerDays(), []);
-  const [selectedDayId, setSelectedDayId] = useState<string | null>(schedulerDays[0]?.id ?? null);
-  const selectedDay = schedulerDays.find((day) => day.id === selectedDayId);
-  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
-  const selectedSlot = selectedDay?.slots.find((slot) => slot.id === selectedSlotId) ?? null;
-  const [clientName, setClientName] = useState("");
-  const [clientEmail, setClientEmail] = useState("");
-  const [clientPhone, setClientPhone] = useState("");
-  const [selectedTopic, setSelectedTopic] = useState("Derecho pensional");
-  const [caseMessage, setCaseMessage] = useState("");
-  const [attachedFiles, setAttachedFiles] = useState<FileList | null>(null);
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [selectedDayId, setSelectedDayId]     = useState<string | null>(null);
+  const [selectedTime, setSelectedTime]         = useState<string | null>(null);
+  const [selectedChannel, setSelectedChannel]   = useState<string | null>(null);
+  const [clientName, setClientName]             = useState("");
+  const [clientEmail, setClientEmail]           = useState("");
+  const [clientPhone, setClientPhone]           = useState("");
+  const [selectedTopic, setSelectedTopic]       = useState("Derecho pensional");
+  const [caseMessage, setCaseMessage]           = useState("");
+  const [attachedFiles, setAttachedFiles]       = useState<FileList | null>(null);
+  const [status, setStatus]                     = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [statusMessage, setStatusMessage]       = useState<string | null>(null);
 
-  const bookingMessage = selectedSlot && selectedDay
-    ? `Hola, quiero agendar una cita el ${selectedDay.fullLabel} a las ${selectedSlot.time} (${selectedSlot.channel}).`
+  const now = new Date();
+  const isSelectedToday = selectedDayId === toDateId(now);
+
+  const availableTimes = TIMES.filter((t) => {
+    if (!isSelectedToday) return true;
+    return t.hour > now.getHours() || (t.hour === now.getHours() && 0 > now.getMinutes());
+  });
+
+  const selectedDayLabel = selectedDayId
+    ? capitalize(new Date(`${selectedDayId}T12:00:00`).toLocaleDateString("es-CO", { weekday: "long", day: "numeric", month: "long" }))
     : null;
 
-  const mailtoHref = bookingMessage
-    ? `mailto:jp@barriosvalencia.com?subject=${encodeURIComponent("Solicitud de cita")}&body=${encodeURIComponent(bookingMessage)}`
-    : undefined;
+  const bookingMessage =
+    selectedDayId && selectedTime && selectedChannel
+      ? `Hola, quiero agendar una cita el ${selectedDayLabel} a las ${selectedTime} mediante ${selectedChannel}.`
+      : null;
 
   const whatsappHref = bookingMessage
     ? `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${encodeURIComponent(bookingMessage)}`
     : undefined;
+
+  const gcalUrl = (() => {
+    if (!selectedDayId || !selectedTime) return undefined;
+    const slot = TIMES.find((t) => t.label === selectedTime);
+    if (!slot) return undefined;
+    const [y, mo, d] = selectedDayId.split("-").map(Number);
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const startStr = `${y}${pad(mo)}${pad(d)}T${pad(slot.hour)}0000`;
+    const endStr   = `${y}${pad(mo)}${pad(d)}T${pad(slot.hour + 1)}0000`;
+    const details  = `Cita agendada con Barrios Valencia Abogados${selectedChannel ? ` — ${selectedChannel}` : ""}.`;
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Cita Barrios Valencia Abogados")}&dates=${startStr}/${endStr}&details=${encodeURIComponent(details)}&location=${encodeURIComponent("Cra. 8 #3-52, Popayán, Cauca")}`;
+  })();
 
   const canSendEmail = Boolean(bookingMessage && clientName.trim() && clientEmail.trim());
 
@@ -124,145 +197,141 @@ export function AppointmentScheduler({
     if (!bookingMessage || !canSendEmail) return;
     setStatus("sending");
     setStatusMessage(null);
-
     const formData = new FormData();
     formData.set("name", clientName.trim());
     formData.set("email", clientEmail.trim());
     formData.set("phone", clientPhone.trim());
     formData.set("topic", selectedTopic || "Agendamiento");
     formData.set("message", `${bookingMessage}${caseMessage.trim() ? `\n\nSituación:\n${caseMessage.trim()}` : ""}`);
-    if (attachedFiles) {
-      Array.from(attachedFiles).forEach((file) => formData.append("attachments", file));
-    }
-
+    if (attachedFiles) Array.from(attachedFiles).forEach((f) => formData.append("attachments", f));
     try {
-      const response = await fetch("/api/contacto/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const result = await response.json();
-      if (!response.ok || !result?.ok) {
-        throw new Error(result?.message || "No pudimos enviar la confirmación. Inténtalo de nuevo.");
-      }
+      const res = await fetch("/api/contacto/upload", { method: "POST", body: formData });
+      const result = await res.json();
+      if (!res.ok || !result?.ok) throw new Error(result?.message || "No pudimos enviar. Inténtalo de nuevo.");
       setStatus("success");
       setStatusMessage("Recibimos tu solicitud. Te confirmaremos la cita por correo.");
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Ocurrió un error inesperado.";
+    } catch (err) {
       setStatus("error");
-      setStatusMessage(message);
+      setStatusMessage(err instanceof Error ? err.message : "Ocurrió un error inesperado.");
     }
   };
 
+  const stepLabel = (n: number, text: string) => (
+    <p className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#152A42]/50">
+      <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center bg-[#152A42] text-[9px] font-bold text-white">{n}</span>
+      {text}
+    </p>
+  );
+
   return (
     <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-      <div>
-        <p className="text-[11px] font-semibold uppercase text-[#A1805E]">
-          Agenda en línea
-        </p>
-        <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-[#152A42] md:text-4xl">
-          Selecciona fecha, horario y canal de atención
+      <div className="min-w-0">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#A1805E]">Agenda en línea</p>
+        <h2 className="mt-3 text-2xl font-semibold leading-snug tracking-[-0.03em] text-[#152A42] sm:text-3xl">
+          Agenda tu cita
         </h2>
-        <p className="mt-3 text-sm leading-7 text-[#152A42]/70">
-          Agenda citas presenciales en Popayán, videollamadas o llamadas telefónicas. Selecciona un día disponible y luego
-          el horario que prefieras.
-        </p>
-        <p className="mt-2 text-xs uppercase text-[#A1805E]">
-          Atendemos de lunes a viernes. Sábados y domingos no se programan citas.
+        <p className="mt-2 text-sm leading-6 text-[#152A42]/55">
+          Atención presencial en Popayán, videollamada o llamada. Lunes a viernes, 8 a.m. – 6 p.m.
         </p>
 
-        <div className="mt-6 flex gap-3 overflow-x-auto pb-2">
-          {schedulerDays.map((day) => (
-            <button
-              key={day.id}
-              type="button"
-              onClick={() => {
-                setSelectedDayId(day.id);
-                setSelectedSlotId(null);
-              }}
-              className={cn(
-                "min-w-[130px] border px-4 py-3 text-left transition",
-                selectedDayId === day.id
-                  ? "border-[#A1805E] bg-[#FFF8F3] text-[#152A42]"
-                  : "border-[#152A42]/15 bg-white text-[#152A42]/70 hover:border-[#A1805E]/50",
-              )}
-            >
-              <span className="text-xs font-semibold uppercase text-[#A1805E]">
-                {day.label}
-              </span>
-              <p className="text-lg font-semibold text-[#152A42]">{day.dateLabel}</p>
-            </button>
-          ))}
+        {/* PASO 1 — FECHA */}
+        <div className="mt-6">
+          {stepLabel(1, "Selecciona una fecha")}
+          <MiniCalendar
+            selectedDateId={selectedDayId}
+            onSelect={(id) => { setSelectedDayId(id); setSelectedTime(null); setSelectedChannel(null); }}
+          />
         </div>
 
-        <div className="mt-6 grid gap-3 md:grid-cols-3">
-          {selectedDay?.slots.map((slot) => (
-            <button
-              key={slot.id}
-              type="button"
-              onClick={() => setSelectedSlotId(slot.id)}
-              className={cn(
-                "border px-4 py-4 text-left text-sm transition",
-                selectedSlotId === slot.id
-                  ? "border-[#A1805E] bg-[#FFF8F3] text-[#152A42]"
-                  : "border-[#152A42]/15 bg-white text-[#152A42]/70 hover:border-[#A1805E]/40",
-              )}
-            >
-              <p className="text-base font-semibold text-[#152A42]">{slot.time}</p>
-              <p className="text-sm text-[#152A42]/70">{slot.channel}</p>
-            </button>
-          ))}
-        </div>
+        {/* PASO 2 — HORA */}
+        {selectedDayId && (
+          <div className="mt-6">
+            {stepLabel(2, "Selecciona la hora")}
+            {availableTimes.length > 0 ? (
+              <div className="grid grid-cols-3 gap-2">
+                {availableTimes.map((t) => (
+                  <button
+                    key={t.label}
+                    type="button"
+                    onClick={() => { setSelectedTime(t.label); setSelectedChannel(null); }}
+                    className={cn(
+                      "border py-3 text-center text-sm font-medium transition",
+                      selectedTime === t.label
+                        ? "border-[#A1805E] bg-[#152A42] text-white"
+                        : "border-[#152A42]/15 bg-white text-[#152A42] hover:border-[#A1805E]/40",
+                    )}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-[#152A42]/45">No hay horarios disponibles para hoy. Selecciona otro día.</p>
+            )}
+          </div>
+        )}
 
-        <div className="mt-6 rounded-xl border border-[#152A42]/10 bg-[#F5F4F2] p-4 text-sm text-[#152A42]/80">
+        {/* PASO 3 — MODALIDAD */}
+        {selectedTime && (
+          <div className="mt-6">
+            {stepLabel(3, "Selecciona la modalidad")}
+            <div className="grid gap-2">
+              {CHANNELS.map((ch) => (
+                <button
+                  key={ch}
+                  type="button"
+                  onClick={() => setSelectedChannel(ch)}
+                  className={cn(
+                    "border px-4 py-3 text-left text-sm font-medium transition",
+                    selectedChannel === ch
+                      ? "border-[#A1805E] bg-[#152A42] text-white"
+                      : "border-[#152A42]/15 bg-white text-[#152A42] hover:border-[#A1805E]/40",
+                  )}
+                >
+                  {ch}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* RESUMEN */}
+        <div className="mt-5">
           {bookingMessage ? (
-            <div>
-              <p className="font-semibold text-[#152A42]">Resumen de la cita</p>
-              <p className="mt-1">{bookingMessage}</p>
+            <div className="border-l-2 border-[#A1805E] bg-[#FFF8F3] px-4 py-3">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A1805E]">Cita seleccionada</p>
+              <p className="mt-1 text-sm font-medium text-[#152A42]">{bookingMessage}</p>
             </div>
           ) : (
-            <p>Selecciona un día y un horario disponible para continuar.</p>
+            <p className="text-xs text-[#152A42]/40">
+              {!selectedDayId ? "Selecciona una fecha para continuar." : !selectedTime ? "Selecciona un horario." : "Selecciona la modalidad."}
+            </p>
           )}
         </div>
 
+        {/* PASO 4 — DATOS */}
         <div className="mt-6 grid gap-4 border border-[#152A42]/10 bg-white p-5 text-sm text-[#152A42]">
-          <p className="text-[11px] font-semibold uppercase text-[#A1805E]">
-            Cuéntanos con quién podemos confirmar
-          </p>
+          {stepLabel(4, "Cuéntanos con quién podemos confirmar")}
           <div className="grid gap-3 md:grid-cols-2">
             <label className="flex flex-col gap-1 text-xs font-semibold">
               Nombre
-              <input
-                type="text"
-                value={clientName}
-                onChange={(event) => setClientName(event.target.value)}
-                className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none"
-              />
+              <input type="text" value={clientName} onChange={(e) => setClientName(e.target.value)}
+                className="w-full rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none" />
             </label>
             <label className="flex flex-col gap-1 text-xs font-semibold">
               Correo electrónico
-              <input
-                type="email"
-                value={clientEmail}
-                onChange={(event) => setClientEmail(event.target.value)}
-                className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none"
-              />
+              <input type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)}
+                className="w-full rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none" />
             </label>
             <label className="flex flex-col gap-1 text-xs font-semibold md:col-span-2">
               Teléfono o WhatsApp (opcional)
-              <input
-                type="tel"
-                value={clientPhone}
-                onChange={(event) => setClientPhone(event.target.value)}
-                className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none"
-              />
+              <input type="tel" value={clientPhone} onChange={(e) => setClientPhone(e.target.value)}
+                className="w-full rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none" />
             </label>
             <label className="flex flex-col gap-1 text-xs font-semibold md:col-span-2">
               Tipo de asunto
-              <select
-                value={selectedTopic}
-                onChange={(event) => setSelectedTopic(event.target.value)}
-                className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none"
-              >
+              <select value={selectedTopic} onChange={(e) => setSelectedTopic(e.target.value)}
+                className="w-full rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none">
                 {["Derecho pensional", "Conflicto laboral", "Accidente / incapacidad", "Consulta general"].map((t) => (
                   <option key={t} value={t}>{t}</option>
                 ))}
@@ -270,70 +339,50 @@ export function AppointmentScheduler({
             </label>
             <label className="flex flex-col gap-1 text-xs font-semibold md:col-span-2">
               Describe brevemente tu situación (opcional)
-              <textarea
-                rows={4}
-                value={caseMessage}
-                onChange={(event) => setCaseMessage(event.target.value)}
-                className="rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none resize-none"
-              />
+              <textarea rows={4} value={caseMessage} onChange={(e) => setCaseMessage(e.target.value)}
+                className="w-full resize-none rounded-none border border-[#152A42]/20 px-3 py-2 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none" />
             </label>
             <label className="flex flex-col gap-1 text-xs font-semibold md:col-span-2">
               Adjunta documentos (PDF, JPG, PNG) – opcional
-              <input
-                type="file"
-                multiple
-                accept=".pdf,.jpg,.jpeg,.png"
-                onChange={(event) => setAttachedFiles(event.target.files)}
-                className="mt-1 cursor-pointer border border-dashed border-[#152A42]/30 bg-[#F5F4F2] px-3 py-3 text-xs text-[#152A42]/70"
-              />
+              <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png" onChange={(e) => setAttachedFiles(e.target.files)}
+                className="mt-1 w-full cursor-pointer border border-dashed border-[#152A42]/30 bg-[#F5F4F2] px-3 py-3 text-xs text-[#152A42]/70" />
             </label>
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            <Button
-              type="button"
-              onClick={handleSendEmail}
-              disabled={!canSendEmail || status === "sending"}
-              className="min-w-[200px] [--btn-bg:#152A42] [--btn-fg:#F5F4F2] [--btn-hover-bg:#0F2236] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:opacity-50"
-            >
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button type="button" onClick={handleSendEmail} disabled={!canSendEmail || status === "sending"}
+              className="w-full sm:w-auto sm:min-w-[200px] [--btn-bg:#152A42] [--btn-fg:#F5F4F2] [--btn-hover-bg:#0F2236] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:opacity-50">
               {status === "sending" ? "Enviando..." : "Enviar confirmación"}
             </Button>
-
             {whatsappHref ? (
-              <Button
-                asChild
-                className="[--btn-bg:transparent] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42]"
-              >
-                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                  Confirmar por WhatsApp
-                </a>
+              <Button asChild className="w-full sm:w-auto [--btn-bg:transparent] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42]">
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">WhatsApp</a>
               </Button>
             ) : (
-              <Button
-                disabled
-                className="[--btn-bg:transparent] [--btn-fg:#152A42]/60 [--btn-hover-bg:transparent] [--btn-hover-fg:#152A42]/60 [--btn-border:#152A42]/40 disabled:opacity-100"
-              >
+              <Button disabled className="w-full sm:w-auto [--btn-bg:transparent] [--btn-fg:#152A42]/60 [--btn-hover-bg:transparent] [--btn-hover-fg:#152A42]/60 [--btn-border:#152A42]/40 disabled:opacity-100">
                 WhatsApp
+              </Button>
+            )}
+            {gcalUrl ? (
+              <Button asChild className="w-full sm:w-auto [--btn-bg:transparent] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42]">
+                <a href={gcalUrl} target="_blank" rel="noopener noreferrer">+ Google Calendar</a>
+              </Button>
+            ) : (
+              <Button disabled className="w-full sm:w-auto [--btn-bg:transparent] [--btn-fg:#152A42]/60 [--btn-hover-bg:transparent] [--btn-hover-fg:#152A42]/60 [--btn-border:#152A42]/40 disabled:opacity-100">
+                + Google Calendar
               </Button>
             )}
           </div>
 
           {statusMessage ? (
-            <p
-              className={`text-xs ${status === "error" ? "text-red-600" : "text-emerald-700"}`}
-              aria-live="polite"
-              role="status"
-            >
+            <p className={`text-xs ${status === "error" ? "text-red-600" : "text-emerald-700"}`} aria-live="polite" role="status">
               {statusMessage}
             </p>
           ) : (
-            <p className="text-xs text-[#152A42]/70">
-              Recibirás una copia en tu correo y nuestro equipo te confirmará la cita.
-            </p>
+            <p className="text-xs text-[#152A42]/70">Recibirás una copia en tu correo y nuestro equipo te confirmará la cita.</p>
           )}
         </div>
       </div>
-
     </div>
   );
 }

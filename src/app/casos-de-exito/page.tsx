@@ -182,6 +182,54 @@ export default function CasosDeExitoPage() {
         </Container>
       </section>
 
+      {/* Testimonio en video */}
+      <section className="bg-white py-14 md:py-20">
+        <Container className="max-w-5xl">
+          <div className="grid gap-10 lg:grid-cols-[1fr_360px] lg:items-center lg:gap-16">
+            <div className="space-y-5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#A1805E]">
+                Caso real · Testimonio en video
+              </p>
+              <h2 className="text-2xl font-semibold leading-snug tracking-[-0.03em] text-[#152A42] md:text-3xl">
+                De 75% a 90%: la reliquidación que Colpensiones negó y ganamos en demanda
+              </h2>
+              <p className="text-sm leading-7 text-[#152A42]/70">
+                Reinaldo Muñoz fue pensionado en 1988 bajo la ley 71 con una tasa de reemplazo del 75%, cuando tenía derecho al 90%. Colpensiones negó la reliquidación, argumentando el promedio de los últimos 10 años. Iniciamos una demanda laboral, y tras el proceso judicial logramos primero el 85% y luego el 90% — acompañado de un retroactivo pensional completo.
+              </p>
+              <div className="grid grid-cols-3 gap-4 border-t border-[#152A42]/10 pt-5">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A1805E]">Tasa inicial</p>
+                  <p className="mt-1.5 text-2xl font-semibold text-[#152A42]">75%</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A1805E]">Tasa final</p>
+                  <p className="mt-1.5 text-2xl font-semibold text-[#152A42]">90%</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A1805E]">Resultado</p>
+                  <p className="mt-1.5 text-sm font-semibold text-[#152A42]">Retroactivo pensional</p>
+                </div>
+              </div>
+              <p className="border-l-2 border-[#A1805E] pl-4 text-xs italic text-[#152A42]/65">
+                "Del 75% brinqué al 85% y luego al 90%, quedé pensionado con el 90%." — Reinaldo Muñoz
+              </p>
+            </div>
+
+            <div className="overflow-hidden border border-[#152A42]/10 bg-[#F5F4F2]">
+              <div className="aspect-[4/5] w-full">
+                <iframe
+                  src="https://www.instagram.com/p/DXITEBGDYJe/embed"
+                  className="h-full w-full border-0"
+                  allowFullScreen
+                  loading="lazy"
+                  title="Testimonio Reinaldo Muñoz — Reliquidación pensional Barrios Valencia"
+                />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
       {/* Filtros + Grid + CTA sticky */}
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:flex lg:items-start lg:gap-0 lg:px-8 py-14 md:py-20">
 

@@ -74,17 +74,17 @@ export function ShareCaseForm({ whatsappPhone, compact = false, hideHeader = fal
     ? "flex flex-col text-xs font-medium text-[#152A42]"
     : "flex flex-col text-sm font-medium text-[#152A42]";
   const inputClass = compact
-    ? "mt-1.5 rounded-none border border-[#152A42]/20 bg-white px-3 py-2 text-xs text-[#152A42] focus:border-[#A1805E] focus:outline-none"
-    : "mt-2 rounded-none border border-[#152A42]/20 bg-white px-4 py-3 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none";
+    ? "mt-1.5 w-full rounded-none border border-[#152A42]/20 bg-white px-3 py-2 text-xs text-[#152A42] focus:border-[#A1805E] focus:outline-none"
+    : "mt-2 w-full rounded-none border border-[#152A42]/20 bg-white px-4 py-3 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none";
   const textareaClass = compact
-    ? "mt-1.5 resize-none rounded-none border border-[#152A42]/20 bg-white px-3 py-2 text-xs text-[#152A42] focus:border-[#A1805E] focus:outline-none"
-    : "mt-2 resize-none rounded-none border border-[#152A42]/20 bg-white px-4 py-3 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none";
+    ? "mt-1.5 w-full resize-none rounded-none border border-[#152A42]/20 bg-white px-3 py-2 text-xs text-[#152A42] focus:border-[#A1805E] focus:outline-none"
+    : "mt-2 w-full resize-none rounded-none border border-[#152A42]/20 bg-white px-4 py-3 text-sm text-[#152A42] focus:border-[#A1805E] focus:outline-none";
   const fileInputClass = compact
-    ? "mt-1.5 cursor-pointer border border-dashed border-[#152A42]/30 bg-[#F5F4F2] px-3 py-4 text-xs text-[#152A42]/80"
-    : "mt-2 cursor-pointer border border-dashed border-[#152A42]/30 bg-[#F5F4F2] px-4 py-5 text-sm text-[#152A42]/80";
+    ? "mt-1.5 w-full cursor-pointer border border-dashed border-[#152A42]/30 bg-[#F5F4F2] px-3 py-4 text-xs text-[#152A42]/80"
+    : "mt-2 w-full cursor-pointer border border-dashed border-[#152A42]/30 bg-[#F5F4F2] px-4 py-5 text-sm text-[#152A42]/80";
   const submitButtonClass = compact
-    ? "mt-3 min-w-[200px] text-xs [--btn-bg:#152A42] [--btn-fg:#F5F4F2] [--btn-hover-bg:#0F2236] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:opacity-50"
-    : "mt-4 min-w-[220px] [--btn-bg:#152A42] [--btn-fg:#F5F4F2] [--btn-hover-bg:#0F2236] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:opacity-50";
+    ? "mt-3 w-full text-xs [--btn-bg:#152A42] [--btn-fg:#F5F4F2] [--btn-hover-bg:#0F2236] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:opacity-50"
+    : "mt-4 w-full [--btn-bg:#152A42] [--btn-fg:#F5F4F2] [--btn-hover-bg:#0F2236] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:opacity-50";
   const helperTextClass = compact ? "mt-4 text-[11px] text-[#152A42]/65" : "mt-6 text-xs text-[#152A42]/65";
   const noteTextClass = compact ? "mt-2 text-[11px] text-[#152A42]/50" : "mt-3 text-xs text-[#152A42]/50";
 
@@ -214,7 +214,7 @@ export function ShareCaseForm({ whatsappPhone, compact = false, hideHeader = fal
       </p>
       <Button
         disabled={!whatsappHref}
-        className="mt-3 [--btn-bg:transparent] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:[--btn-border:#152A42]/30 disabled:[--btn-fg:#152A42]/40 disabled:opacity-100"
+        className="mt-3 w-full [--btn-bg:transparent] [--btn-fg:#152A42] [--btn-hover-bg:#152A42] [--btn-hover-fg:#F5F4F2] [--btn-border:#152A42] disabled:[--btn-border:#152A42]/30 disabled:[--btn-fg:#152A42]/40 disabled:opacity-100"
         onClick={() => {
           if (!whatsappHref) return;
           window.open(whatsappHref, "_blank", "noopener,noreferrer");
