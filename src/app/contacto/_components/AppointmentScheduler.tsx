@@ -187,8 +187,22 @@ export function AppointmentScheduler({
     const pad = (n: number) => String(n).padStart(2, "0");
     const startStr = `${y}${pad(mo)}${pad(d)}T${pad(slot.hour)}0000`;
     const endStr   = `${y}${pad(mo)}${pad(d)}T${pad(slot.hour + 1)}0000`;
-    const details  = `Cita agendada con Barrios Valencia Abogados${selectedChannel ? ` — ${selectedChannel}` : ""}.`;
-    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Cita Barrios Valencia Abogados")}&dates=${startStr}/${endStr}&details=${encodeURIComponent(details)}&location=${encodeURIComponent("Cra. 8 #3-52, Popayán, Cauca")}`;
+    const details  = `Cita con ${clientName || "Cliente"} — ${selectedChannel || "Modalidad por definir"}${caseMessage.trim() ? `\n\nSituación: ${caseMessage.trim()}` : ""}`;
+    const attendees = `jp@barriosvalencia.com${clientEmail.trim() ? `,${clientEmail.trim()}` : ""}`;
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Cita Barrios Valencia Abogados")}&dates=${startStr}/${endStr}&details=${encodeURIComponent(details)}&location=${encodeURIComponent("Cra. 8 #3-52, Popayán, Cauca")}&add=${encodeURIComponent(attendees)}`;
+  })();
+
+  const officeGcalUrl = (() => {
+    if (!selectedDayId || !selectedTime || !clientName.trim()) return undefined;
+    const slot = TIMES.find((t) => t.label === selectedTime);
+    if (!slot) return undefined;
+    const [y, mo, d] = selectedDayId.split("-").map(Number);
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const startStr = `${y}${pad(mo)}${pad(d)}T${pad(slot.hour)}0000`;
+    const endStr   = `${y}${pad(mo)}${pad(d)}T${pad(slot.hour + 1)}0000`;
+    const details  = `Cita con ${clientName}\nEmail: ${clientEmail}${clientPhone ? `\nTeléfono: ${clientPhone}` : ""}\nTema: ${selectedTopic}${caseMessage.trim() ? `\n\nSituación:\n${caseMessage.trim()}` : ""}`;
+    const attendees = clientEmail.trim() ? clientEmail.trim() : "";
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Cita: ${clientName}`)}&dates=${startStr}/${endStr}&details=${encodeURIComponent(details)}&location=${encodeURIComponent("Cra. 8 #3-52, Popayán, Cauca")}${attendees ? `&add=${encodeURIComponent(attendees)}` : ""}`;
   })();
 
   const canSendEmail = Boolean(bookingMessage && clientName.trim() && clientEmail.trim());
@@ -202,7 +216,8 @@ export function AppointmentScheduler({
     formData.set("email", clientEmail.trim());
     formData.set("phone", clientPhone.trim());
     formData.set("topic", selectedTopic || "Agendamiento");
-    formData.set("message", `${bookingMessage}${caseMessage.trim() ? `\n\nSituación:\n${caseMessage.trim()}` : ""}`);
+    const emailMessage = `${bookingMessage}${caseMessage.trim() ? `\n\nSituación:\n${caseMessage.trim()}` : ""}${officeGcalUrl ? `\n\n📅 AGREGAR A GOOGLE CALENDAR:\n${officeGcalUrl}` : ""}`;
+    formData.set("message", emailMessage);
     if (attachedFiles) Array.from(attachedFiles).forEach((f) => formData.append("attachments", f));
     try {
       const res = await fetch("/api/contacto/upload", { method: "POST", body: formData });
