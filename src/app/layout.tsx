@@ -16,9 +16,9 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   ...defaultMetadata,
   icons: {
-    icon: "/brand/b.png",
-    shortcut: "/brand/b.png",
-    apple: "/brand/b.png",
+    icon: "/barriosvalencia.png",
+    shortcut: "/barriosvalencia.png",
+    apple: "/barriosvalencia.png",
   },
 };
 
