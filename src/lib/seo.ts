@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const siteConfig = {
   name: "Barrios Valencia Abogados",
   description:
-    "Firma boutique especializada en derecho pensional y laboral que acompaña a trabajadores, familias y empresas en todo Colombia.",
+    "Abogados especializados en derecho pensional y laboral que acompaña a trabajadores, familias y empresas en todo Colombia.",
   url: "https://barrios-valencia.example.com",
   locale: "es_CO",
 };
