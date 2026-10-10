@@ -1,7 +1,14 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 const whatsappUrl =
   "https://api.whatsapp.com/send?phone=573005687950&text=Hola%20Barrios%20Valencia%20Abogados,%20quiero%20asesor%C3%ADa.";
 
 export function WhatsappBubble() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/plataforma")) return null;
+
   return (
     <a
       href={whatsappUrl}

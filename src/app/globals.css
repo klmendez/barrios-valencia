@@ -90,3 +90,97 @@ a {
 .rotate-y-180 {
   transform: rotateY(180deg);
 }
+
+[data-bv-platform] table thead {
+  background-color: #10263c;
+  color: #fff;
+}
+
+[data-bv-platform] table thead th {
+  color: #fff;
+}
+
+[data-bv-platform] table tbody td,
+[data-bv-platform] table tbody td button,
+[data-bv-platform] table tbody td select,
+[data-bv-platform] table tbody td input {
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+[data-bv-platform] table tbody td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* Colores tenues para distinguir datos operativos sin perder la lectura de la fila. */
+[data-bv-platform] .bv-case-table tbody td[data-column="client"] {
+  background-color: #f0f5f8;
+}
+
+[data-bv-platform] .bv-case-table tbody td[data-column="status"] {
+  background-color: #f2f0f8;
+}
+
+[data-bv-platform] .bv-case-table tbody td[data-column="alert"] {
+  background-color: #fff7e9;
+}
+
+[data-bv-platform] .bv-case-table tbody td[data-column="fees"],
+[data-bv-platform] .bv-payment-table tbody td:nth-child(2) {
+  background-color: #f1f4f7;
+}
+
+[data-bv-platform] .bv-case-table tbody td[data-column="paid"],
+[data-bv-platform] .bv-payment-table tbody td:nth-child(3) {
+  background-color: #eaf5ef;
+  color: #245b3e;
+}
+
+[data-bv-platform] .bv-payment-table tbody td:nth-child(4) {
+  background-color: #fff7e9;
+}
+
+/* La tabla se mueve con la barra fija inferior; ocultar solo su barra duplicada. */
+[data-bv-platform] .bv-case-table-scroll {
+  scrollbar-width: none;
+}
+
+[data-bv-platform] .bv-case-table-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+[role="dialog"][aria-label^="Expediente"] > div.overflow-y-auto {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+[role="dialog"][aria-label^="Expediente"] > div.overflow-y-auto > div.space-y-4.py-4 {
+  display: contents;
+}
+
+[role="dialog"][aria-label^="Expediente"] > div.overflow-y-auto > div.space-y-4.py-4 > section:nth-of-type(1) {
+  order: 0;
+}
+
+[role="dialog"][aria-label^="Expediente"] > div.overflow-y-auto > section:nth-of-type(2) {
+  order: 1;
+}
+
+[role="dialog"][aria-label^="Expediente"] > div.overflow-y-auto > div.space-y-4.py-4 > section:nth-of-type(2) {
+  order: 2;
+}
+
+[role="dialog"][aria-label^="Expediente"] > div.overflow-y-auto > div.space-y-4.py-4 > section:nth-of-type(3) {
+  order: 3;
+}
+
+[role="dialog"][aria-label^="Expediente"] > div.overflow-y-auto > div.space-y-4.py-4 > section:nth-of-type(3) > div > label:first-child {
+  display: none;
+}
+
+[role="dialog"][aria-label^="Expediente"] > div.overflow-y-auto > section:nth-of-type(1) {
+  order: 4;
+}

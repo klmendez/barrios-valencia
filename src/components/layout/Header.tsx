@@ -19,11 +19,14 @@ export function Header() {
   const isTransparent = isTransparentPage && !isScrolled;
 
   useEffect(() => {
+    if (pathname.startsWith("/plataforma")) return;
     const evaluate = () => setIsScrolled(window.scrollY > 60);
     evaluate();
     window.addEventListener("scroll", evaluate, { passive: true });
     return () => window.removeEventListener("scroll", evaluate);
-  }, []);
+  }, [pathname]);
+
+  if (pathname.startsWith("/plataforma")) return null;
 
   return (
     <>
