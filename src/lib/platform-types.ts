@@ -20,6 +20,8 @@ export type CaseRecord = {
   alertMessage?: string;
   alertTaskId?: string;
   dueDate: string;
+  dueTime?: string;
+  alertDismissedKey?: string;
   fees: string;
   paid: string;
   notes: string[];
@@ -33,8 +35,8 @@ export type CaseRecord = {
 export type CaseHistoryEntry = { at: string; timestamp?: number; by: string; action: string; detail: string; undo?: { values?: Partial<Omit<CaseRecord, "id" | "history">>; deleteCase?: boolean; paymentId?: string; documentId?: string; taskCreateId?: string; taskState?: { id: string; done: boolean; completedBy?: string } } };
 export type PaymentRecord = { id: string; caseId: string; amount: number; date: string; note: string; by: string };
 export type DocumentRecord = { id: string; caseId: string; name: string; category: string; url: string; addedAt: string; by: string };
-export type TaskRecord = { id: string; title: string; caseId: string; owner: string; priority: "Alta" | "Media" | "Baja"; dueDate: string; done: boolean; createdAt: string; completedBy?: string };
-export type CalendarAlertRecord = { id: string; caseId: string; title: string; date: string; owner: string; createdAt: string };
+export type TaskRecord = { id: string; title: string; caseId: string; owner: string; priority: "Alta" | "Media" | "Baja"; dueDate: string; dueTime?: string; done: boolean; createdAt: string; createdAtIso?: string; completedBy?: string; source?: "telegram" };
+export type CalendarAlertRecord = { id: string; caseId: string; title: string; date: string; time?: string; url?: string; owner: string; createdAt: string; createdAtIso?: string; done?: boolean; completedBy?: string; source?: "telegram" };
 export type DeletedCaseRecord = { case: CaseRecord; caseFields: CustomCaseField[]; tasks: TaskRecord[]; alerts: CalendarAlertRecord[]; payments: PaymentRecord[]; documents: DocumentRecord[]; deletedAt: string; deletedTimestamp: number; deletedBy: string; reason: "manual" | "undo_creation" };
 
 export type PlatformSnapshot = {

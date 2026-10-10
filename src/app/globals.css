@@ -150,6 +150,71 @@ a {
   display: none;
 }
 
+@media (max-width: 639px) {
+  [data-bv-platform] {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  [data-bv-platform] main,
+  [data-bv-platform] main > section,
+  [data-bv-platform] [role="dialog"] {
+    min-width: 0;
+  }
+
+  [data-bv-platform] main .grid > * {
+    min-width: 0;
+  }
+
+  [data-bv-platform] main .grid p {
+    overflow-wrap: anywhere;
+  }
+
+  [data-bv-platform] > div.fixed.inset-0 > form:not(.absolute),
+  [data-bv-platform] > div.fixed.inset-0 > [role="alertdialog"] {
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+  }
+
+  [data-bv-platform] > div.fixed.inset-0 > form.absolute,
+  [data-bv-platform] > div.fixed.inset-0 > [role="dialog"] {
+    max-width: 100vw;
+    max-height: 100dvh;
+  }
+
+  [data-bv-platform] .bv-case-table-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #94a3b8 #e2e8f0;
+  }
+
+  [data-bv-platform] .bv-case-table-scroll::-webkit-scrollbar {
+    display: block;
+    height: 7px;
+  }
+
+  [data-bv-platform] .bv-case-table-scroll::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+  }
+
+  [data-bv-platform] [role="dialog"] input:not([type="checkbox"]):not([type="color"]),
+  [data-bv-platform] [role="dialog"] select,
+  [data-bv-platform] [role="dialog"] textarea {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  [data-bv-platform] [role="dialog"] label,
+  [data-bv-platform] [role="dialog"] .grid > div {
+    min-width: 0;
+  }
+
+  [data-bv-platform] [role="dialog"] a,
+  [data-bv-platform] [role="dialog"] dd,
+  [data-bv-platform] [role="dialog"] p {
+    overflow-wrap: anywhere;
+  }
+}
+
 [role="dialog"][aria-label^="Expediente"] > div.overflow-y-auto {
   display: flex;
   flex-direction: column;

@@ -53,7 +53,9 @@ export function CaseListTable({ cases, fields, columnOrder, counterparties, proc
   const byId = new Map([...base, ...custom].map((column) => [column.id, column]));
   const columns = columnOrder.map((id) => byId.get(id)).filter((column): column is Column => Boolean(column));
 
-  return <div className="bv-case-table-scroll overflow-x-auto">
+  return <div className="min-w-0 max-w-full">
+    <p className="border-b border-slate-200 py-1 text-[10px] text-slate-500 sm:hidden">Desliza la tabla hacia los lados para ver todas las columnas.</p>
+    <div className="bv-case-table-scroll min-w-0 max-w-full overflow-x-auto overscroll-x-contain" role="region" aria-label="Tabla de casos, desliza horizontalmente para ver todas las columnas" tabIndex={0}>
     <table className="bv-case-table w-full text-left" style={{ minWidth: 1450 + fields.length * 160 }}>
       <thead className="border-b border-slate-200 bg-[#10263C] text-[10px] uppercase text-white"><tr>
         {columns.map((column, index) => <th key={column.id} draggable tabIndex={0} data-column={column.id} title="Arrastra para cambiar el orden; también puedes usar las flechas izquierda y derecha" aria-label={`${column.label}. Columna ${index + 1} de ${columns.length}. Arrastra o usa las flechas para moverla.`} onDragStart={(event) => { setDraggedId(column.id); event.dataTransfer.effectAllowed = "move"; event.dataTransfer.setData("text/plain", column.id); }} onDragOver={(event) => { event.preventDefault(); setOverId(column.id); }} onDragLeave={() => setOverId(null)} onDrop={(event) => { event.preventDefault(); const sourceId = draggedId || event.dataTransfer.getData("text/plain"); onMoveColumn(sourceId, column.id); setDraggedId(null); setOverId(null); }} onDragEnd={() => { setDraggedId(null); setOverId(null); }} onKeyDown={(event) => { if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return; const target = columns[index + (event.key === "ArrowLeft" ? -1 : 1)]; if (!target) return; event.preventDefault(); onMoveColumn(column.id, target.id); }} className={`cursor-grab select-none px-2 py-2 font-medium outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white ${overId === column.id && draggedId !== column.id ? "bg-[#315875]" : ""} ${draggedId === column.id ? "opacity-60" : ""}`}><span className="inline-flex items-center gap-1 whitespace-nowrap"><span aria-hidden="true" className="text-slate-300">⠿</span>{column.label}</span></th>)}
@@ -65,5 +67,6 @@ export function CaseListTable({ cases, fields, columnOrder, counterparties, proc
         {cases.length === 0 && <tr><td colSpan={columns.length} className="px-3 py-8 text-center text-xs text-slate-500">No hay casos en esta vista.</td></tr>}
       </tbody>
     </table>
+    </div>
   </div>;
 }

@@ -1,2 +1,5 @@
 [functions.telegram-reminders]
 verify_jwt = false
+
+[functions.telegram-chat]
+verify_jwt = false
